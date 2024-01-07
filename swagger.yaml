@@ -8,9 +8,14 @@ info:
   version: 1.0.0
 servers:
   - url: https://ckc-api.onrender.com/
+tags:
+  - name: user
+    description: Các API liên quan đến user
 paths:
   /users:
     get:
+      tags:
+        - "user"
       summary: Lấy danh sách người dùng
       description: Trả về danh sách tất cả người dùng.
       responses:
@@ -27,6 +32,8 @@ paths:
                   fullname: Nguyen Trong Phuc
 
     post:
+      tags:
+        - "user"
       summary: Tạo người dùng mới
       description: Tạo một người dùng mới với thông tin cung cấp.
       requestBody:
