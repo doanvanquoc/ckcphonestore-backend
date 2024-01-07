@@ -1,6 +1,7 @@
 import pool from "../config/database.js";
 
 const getAllUsers = (req, res) => {
+    // res.header('Access-Control-Allow-Origin', '*')
     pool.query('select * from users', (err, result, field) => {
         if (err) throw err
         res.json(result)

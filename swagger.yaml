@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: CKCPhoneStore API
+  description: |
+    Document cho API của ứng dụng bán điện thoại di động CKC Phone Store
+
+    _Tác giả: Đoàn Văn Quốc_
+  version: 1.0.0
+servers:
+  - url: https://ckc-api.onrender.com/
+paths:
+  /users:
+    get:
+      summary: Lấy danh sách người dùng
+      description: Trả về danh sách tất cả người dùng.
+      responses:
+        '200':
+          description: Danh sách người dùng đã được trả về thành công
+          content:
+            application/json:
+              example:
+                - username: 'doanvanquoc'
+                  password: '123456'
+                  fullname: Doan Van Quoc
+                - username: 'nguyentrongphuc'
+                  password: '123456'
+                  fullname: Nguyen Trong Phuc
+
+    post:
+      summary: Tạo người dùng mới
+      description: Tạo một người dùng mới với thông tin cung cấp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              username: 'trananhqunan'
+              password: '123456'
+              fullname: 'Tran Anh Quan'
+      responses:
+        '201':
+          description: Người dùng mới đã được tạo thành công
+          content:
+            application/json:
+              example:
+                - username: 'doanvanquoc'
+                  password: '123456'
+                  fullname: Doan Van Quoc
+                - username: 'nguyentrongphuc'
+                  password: '123456'
+                  fullname: Nguyen Trong Phuc
+                - username: 'trananhquan'
+                  password: '123456'
+                  fullname: Tran Anh Quan
+
+  # /users/{userId}:
+  #   parameters:
+  #     - name: userId
+  #       in: path
+  #       description: ID của người dùng
+  #       required: true
+  #       schema:
+  #         type: integer
+  #   get:
+  #     summary: Lấy thông tin chi tiết của một người dùng
+  #     responses:
+  #       '200':
+  #         description: Thông tin chi tiết của người dùng đã được trả về thành công
+  #         content:
+  #           application/json:
+  #             example:
+  #               id: 1
+  #               name: John Doe
