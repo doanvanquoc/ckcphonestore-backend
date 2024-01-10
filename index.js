@@ -7,6 +7,7 @@ import YAML from 'yaml'
 import path from 'path'
 
 
+import authRouter from './routers/authRouter.js'
 import userRouter from './routers/userRouter.js'
 
 dotenv.config()
@@ -20,10 +21,11 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
-    res.send("<a href='/api-doc'>Bấm vào đây để xem hướng dẫn gọi API</a>")
+    res.send("<a href='/api-doc'><h1>Bấm vào đây để xem hướng dẫn gọi API</h1></a>")
 })
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 //Router for user table
-app.use('/users', userRouter)
+app.use('/auth', authRouter)
+app.use('/user', userRouter)
 
 app.listen(port, () => console.log("Server đang chạy tại http://localhost:3000"))

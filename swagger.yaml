@@ -7,35 +7,20 @@ info:
     _Tác giả: Đoàn Văn Quốc_
   version: 1.0.0
 servers:
+  # - url: http://localhost:3000/
   - url: https://ckc-api.onrender.com/
 tags:
+  - name: auth
+    description: Các API liên quan đến đăng nhập và đăng ký
   - name: user
     description: Các API liên quan đến user
 paths:
-  /users:
-    get:
-      tags:
-        - "user"
-      summary: Lấy danh sách người dùng
-      description: Trả về danh sách tất cả người dùng.
-      responses:
-        '200':
-          description: Danh sách người dùng đã được trả về thành công
-          content:
-            application/json:
-              example:
-                - username: 'doanvanquoc'
-                  password: '123456'
-                  fullname: Doan Van Quoc
-                - username: 'nguyentrongphuc'
-                  password: '123456'
-                  fullname: Nguyen Trong Phuc
-
+  /auth/login:
     post:
       tags:
-        - "user"
-      summary: Tạo người dùng mới
-      description: Tạo một người dùng mới với thông tin cung cấp.
+        - "auth"
+      summary: Đăng nhập tài khoản
+      description: Đăng nhập tài khoản người dùng.
       requestBody:
         required: true
         content:
@@ -43,22 +28,57 @@ paths:
             example:
               username: 'trananhqunan'
               password: '123456'
-              fullname: 'Tran Anh Quan'
+      responses:
+        '200':
+          description: Đăng nhập thành công
+          content:
+            application/json:
+              example:
+                - mesage: Đăng nhập thành công
+                  username: admin
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluMiIsImlhdCI6MTcwNDkwMTg1NiwiZXhwIjoxNzA0OTAxOTE2fQ.vimknPL9V2WdyS2lLUlhyBe1T-YeFOQElo0DH5Qz23k
+  /auth/register:
+    post:
+      tags:
+        - "auth"
+      summary: Tạo người dùng mới
+      description: Tạo một người dùng mới với thông tin cung cấp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              username: 'admin4'
+              password: '123456'
+              fullname: 'Admin4'
       responses:
         '201':
           description: Người dùng mới đã được tạo thành công
           content:
             application/json:
               example:
-                - username: 'doanvanquoc'
-                  password: '123456'
-                  fullname: Doan Van Quoc
-                - username: 'nguyentrongphuc'
-                  password: '123456'
-                  fullname: Nguyen Trong Phuc
-                - username: 'trananhquan'
-                  password: '123456'
-                  fullname: Tran Anh Quan
+                - message: Tạo user mới thành công
+  /user:
+    get:
+      summary: Lấy thông tin user dựa trên token
+      parameters:
+        - name: token
+          in: query
+          description: User token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - message: Thành công
+                  user:
+                    username: admin
+                    fullname: Doan Van Quoc
+
 
   # /users/{userId}:
   #   parameters:
