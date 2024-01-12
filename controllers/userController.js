@@ -1,35 +1,20 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-const getUserByUserName = (req, res) => {
+const getUserInfoByToken = (req, res) => {
     const token = req.query.token
     if (!token) {
         return res.status(400).json({message: 'Vui lòng điền đầy đủ thông tin'})
     }
-    let username
+    let user
     try {
-        username = jwt.verify(token, process.env.SECRECT_KEY).username
+        user = jwt.verify(token, process.env.SECRECT_KEY)
+        console.log(user)
     }
     catch (err) {
-        return res.status(401).json({message: 'Token hết hạn'})
+        return res.status(401).json({message: err})
     }
-
-    User.findOne({
-        where: {username: username}
-    }).then(user => {
-        if (user) {
-            res.json({message: 'Thành công', user: {
-                username: user.username,
-                fullname: user.fullname
-            }})
-        }
-        else {
-            res.status(401).json({message: 'Không tìm thấy người dùng'})
-        }
-    }).catch (err => {
-        res.status(500).json({message: 'Lỗi server'})
-    })
+    res.json({message: 'Thành công', user: user})
 }
 
-export default {getUserByUserName}
+export default {getUserInfoByToken}

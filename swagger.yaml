@@ -60,6 +60,8 @@ paths:
                 - message: Tạo user mới thành công
   /user:
     get:
+      tags:
+        - "user"
       summary: Lấy thông tin user dựa trên token
       parameters:
         - name: token
