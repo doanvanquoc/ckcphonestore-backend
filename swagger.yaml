@@ -8,7 +8,7 @@ info:
   version: 1.0.0
 servers:
   # - url: http://localhost:3000/
-  - url: https://ckc-api.onrender.com/
+  - url: https://api.vanquoc.id.vn/
 tags:
   - name: auth
     description: Các API liên quan đến đăng nhập và đăng ký
