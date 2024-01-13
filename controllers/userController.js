@@ -1,20 +1,31 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 
-const getUserInfoByToken = (req, res) => {
-    const token = req.query.token
-    if (!token) {
-        return res.status(400).json({message: 'Vui lòng điền đầy đủ thông tin'})
+const getUserByID = (req, res) => {
+    const id = req.params.id
+    if (!id) {
+        return res.status(400).json({message: 'Vui lòng điền id user'})
     }
-    let user
-    try {
-        user = jwt.verify(token, process.env.SECRECT_KEY)
-        console.log(user)
-    }
-    catch (err) {
-        return res.status(401).json({message: err})
-    }
-    res.json({message: 'Thành công', user: user})
+    const user = User.findOne({
+        where: {userID: id}
+    }).then(user => {
+        if (user) {
+            res.json({message: 'Thành công', data: {
+                id: user.id,
+                email: user.email,
+                fullname: user.fullname,
+                birthday: user.birthday,
+                phoneNumber: user.phoneNumber,
+                avatar: user.avatar,
+            }})
+        }
+        else {
+            res.json({message: 'Không có người này'})
+        }
+    }).catch(err => {
+        res.status(500).json({message: 'Lỗi server'})
+    })
+    
 }
 
-export default {getUserInfoByToken}
+export default {getUserByID}

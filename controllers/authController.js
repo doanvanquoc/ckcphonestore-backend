@@ -18,6 +18,7 @@ const login = (req, res) => {
             fullname: user.fullname,
             birthday: user.birthday,
             phoneNumber: user.phoneNumber,
+            avatar: user.avatar
           },
           process.env.SECRECT_KEY,
           { expiresIn: 60 }
@@ -38,8 +39,8 @@ const login = (req, res) => {
 };
 
 const register = (req, res) => {
-  const { email, password, fullname, birthday, phoneNumber } = req.body;
-  if (!email || !password || !fullname) {
+  const { email, password, fullname, birthday, phoneNumber, avatar } = req.body;
+  if (!email || !password || !fullname || !phoneNumber || !avatar) {
     return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin" });
   }
   User.create({
@@ -47,10 +48,23 @@ const register = (req, res) => {
     password,
     fullname,
     birthday,
-    phoneNumber
+    phoneNumber,
+    avatar
   })
     .then((newUser) => {
-      res.json({ message: "Tạo mới user thành công" });
+      var token = jwt.sign(
+        {
+          id: newUser.userID,
+          email: newUser.email,
+          fullname: newUser.fullname,
+          birthday: newUser.birthday,
+          phoneNumber: newUser.phoneNumber,
+          avatar: newUser.avatar
+        },
+        process.env.SECRECT_KEY,
+        { expiresIn: 60 }
+      );
+      res.json({ message: "Tạo mới user thành công", token });
     })
     .catch((err) => {
       if (err.name === "SequelizeUniqueConstraintError") {

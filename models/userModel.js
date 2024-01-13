@@ -28,6 +28,10 @@ const User = sequelize.define('users', {
     phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    avatar: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     timestamps: false

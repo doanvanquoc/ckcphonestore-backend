@@ -26,7 +26,7 @@ paths:
         content:
           application/json:
             example:
-              username: 'trananhqunan'
+              email: 'admin@gmail.com'
               password: '123456'
       responses:
         '200':
@@ -35,7 +35,7 @@ paths:
             application/json:
               example:
                 - mesage: Đăng nhập thành công
-                  username: admin
+                  userID: 1
                   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluMiIsImlhdCI6MTcwNDkwMTg1NiwiZXhwIjoxNzA0OTAxOTE2fQ.vimknPL9V2WdyS2lLUlhyBe1T-YeFOQElo0DH5Qz23k
   /auth/register:
     post:
@@ -48,9 +48,12 @@ paths:
         content:
           application/json:
             example:
-              username: 'admin4'
+              email: 'vanquoc@gmail.com'
               password: '123456'
               fullname: 'Admin4'
+              birthday: 2003-06-27
+              phoneNumber: '0388780055'
+              avatar: https://randomuser.me/api/portraits/men/9.jpg
       responses:
         '201':
           description: Người dùng mới đã được tạo thành công
@@ -58,15 +61,16 @@ paths:
             application/json:
               example:
                 - message: Tạo user mới thành công
-  /user:
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJhZG1pbjNAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJhYmMiLCJiaXJ0aGRheSI6IjIwMDMtMDYtMjdUMDA6MDA6MDAuMDAwWiIsInBob25lTnVtYmVyIjoiMDM4ODc4MDAwMSIsImF2YXRhciI6Imh0dHBzOi8vcmFuZG9tdXNlci5tZS9hcGkvcG9ydHJhaXRzL21lbi85MTBqcGciLCJpYXQiOjE3MDUxMzQ3MzMsImV4cCI6MTcwNTEzNDc5M30.g-68vG7rIPSN91K3gTcLx_BC9iHB1tvGk_cP4gJIsc8
+  /user/{id}:
     get:
       tags:
         - "user"
-      summary: Lấy thông tin user dựa trên token
+      summary: Lấy thông tin user dựa trên id
       parameters:
-        - name: token
-          in: query
-          description: User token
+        - name: id
+          in: path
+          description: User id
           required: true
           schema:
             type: string
@@ -77,9 +81,13 @@ paths:
             application/json:
               example:
                 - message: Thành công
-                  user:
-                    username: admin
+                  data:
+                    id: 1
+                    email: admin@gmail.com
                     fullname: Doan Van Quoc
+                    birthday: 2003-06-27
+                    phoneNumber: '0388780052'
+                    avatar: https://randomuser.me/api/portraits/men/9.jpg
 
 
   # /users/{userId}:
