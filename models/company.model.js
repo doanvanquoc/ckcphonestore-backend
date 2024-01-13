@@ -17,10 +17,10 @@ const Company = sequelize.define('companies', {
     timestamps: false
 });
 
-// Company.hasMany(Product, {
-//     foreignKey: 'productID',
-//     onDelete: 'CASCADE',
-//   });
+Company.hasMany(Product, {
+    foreignKey: 'productID',
+    onDelete: 'CASCADE',
+  });
 
 
 export default Company

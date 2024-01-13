@@ -39,14 +39,14 @@ const User = sequelize.define('users', {
     timestamps: false
 });
 
-// User.hasMany(sequelize.models.Address, {
-//     foreignKey: 'userID',
-//     onDelete: 'CASCADE',
-//   });
+User.hasMany(Address, {
+    foreignKey: 'userID',
+    onDelete: 'CASCADE',
+  });
 
-//   User.hasMany(Review, {
-//     foreignKey: 'userID',
-//     onDelete: 'CASCADE',
-//   });
+  User.hasMany(Review, {
+    foreignKey: 'userID',
+    onDelete: 'CASCADE',
+  });
 
 export default User

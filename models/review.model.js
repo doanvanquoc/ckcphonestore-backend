@@ -34,13 +34,13 @@ const Review = sequelize.define('reviews', {
 //     onDelete: 'CASCADE',
 //   });
 
-//   Review.belongsTo(Product, {
-//     foreignKey: {
-//       name: 'productID',
-//       allowNull: false, // Nếu không muốn bài viết không có người dùng
-//     },
-//     onDelete: 'CASCADE',
-//   });
+  Review.belongsTo(Product, {
+    foreignKey: {
+      name: 'productID',
+      allowNull: false, // Nếu không muốn bài viết không có người dùng
+    },
+    onDelete: 'CASCADE',
+  });
 
 
 export default Review

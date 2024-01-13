@@ -2,6 +2,9 @@ import { DataTypes } from "sequelize"
 import sequelize from "../config/sequelize.js"
 import Image from "./image.model.js";
 import Order from "./order.model.js";
+import Cart from "./cart.model.js";
+import Review from "./review.model.js";
+import OrderDetail from "./order.detail.model.js";
 
 const Product = sequelize.define('products', {
     productID: {
@@ -83,13 +86,18 @@ const Product = sequelize.define('products', {
 //     onDelete: 'CASCADE',
 //   });
 
+  Product.hasMany(Cart, {
+    foreignKey: 'productID',
+    onDelete: 'CASCADE',
+  });
+
   Product.hasMany(Image, {
     foreignKey: 'productID',
     onDelete: 'CASCADE',
   });
 
   Product.belongsToMany(Order, {
-    through: 'OrderDatail',
+    through: OrderDetail,
     foreignKey: 'productID'
   })
 
