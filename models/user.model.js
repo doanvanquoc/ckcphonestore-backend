@@ -27,7 +27,7 @@ const User = sequelize.define('users', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    phoneNumber: {
+    phone_number: {
         type: DataTypes.STRING,
         allowNull: false
     },

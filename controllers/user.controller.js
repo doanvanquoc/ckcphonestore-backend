@@ -15,7 +15,7 @@ const getUserByID = (req, res) => {
                 email: user.email,
                 fullname: user.fullname,
                 birthday: user.birthday,
-                phoneNumber: user.phoneNumber,
+                phone_number: user.phone_number,
                 avatar: user.avatar,
             }})
         }

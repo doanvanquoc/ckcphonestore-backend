@@ -17,7 +17,7 @@ const login = (req, res) => {
             email: user.email,
             fullname: user.fullname,
             birthday: user.birthday,
-            phoneNumber: user.phoneNumber,
+            phone_number: user.phoneNumber,
             avatar: user.avatar
           },
           process.env.SECRECT_KEY,
@@ -34,13 +34,13 @@ const login = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ meaasge: "Lỗi server" });
+      res.status(500).json({ meaasge: "Lỗi server: ", err });
     });
 };
 
 const register = (req, res) => {
-  const { email, password, fullname, birthday, phoneNumber, avatar } = req.body;
-  if (!email || !password || !fullname || !phoneNumber || !avatar) {
+  const { email, password, fullname, birthday, phoneNumber: phone_number, avatar } = req.body;
+  if (!email || !password || !fullname || !phone_number || !avatar) {
     return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin" });
   }
   User.create({
@@ -48,7 +48,7 @@ const register = (req, res) => {
     password,
     fullname,
     birthday,
-    phoneNumber,
+    phone_number: phone_number,
     avatar
   })
     .then((newUser) => {
@@ -58,7 +58,7 @@ const register = (req, res) => {
           email: newUser.email,
           fullname: newUser.fullname,
           birthday: newUser.birthday,
-          phoneNumber: newUser.phoneNumber,
+          phone_number: newUser.phone_number,
           avatar: newUser.avatar
         },
         process.env.SECRECT_KEY,
