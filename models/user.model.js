@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize"
 import sequelize from "../config/sequelize.js"
+import Address from "./address.model.js";
+import Review from "./review.model.js";
 
 const User = sequelize.define('users', {
     userID: {
@@ -36,5 +38,15 @@ const User = sequelize.define('users', {
 }, {
     timestamps: false
 });
+
+// User.hasMany(sequelize.models.Address, {
+//     foreignKey: 'userID',
+//     onDelete: 'CASCADE',
+//   });
+
+//   User.hasMany(Review, {
+//     foreignKey: 'userID',
+//     onDelete: 'CASCADE',
+//   });
 
 export default User

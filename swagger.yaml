@@ -14,6 +14,8 @@ tags:
     description: Các API liên quan đến đăng nhập và đăng ký
   - name: user
     description: Các API liên quan đến user
+  - name: product
+    description: Các API liên quan đến sản phẩm
 paths:
   /auth/login:
     post:
@@ -88,6 +90,127 @@ paths:
                     birthday: 2003-06-27
                     phoneNumber: '0388780052'
                     avatar: https://randomuser.me/api/portraits/men/9.jpg
+  /product/create:
+    post:
+      tags:
+        - "product"
+      summary: Tạo mới sản phẩm
+      description: Tạo mới 1 sản phẩm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              note: 'Không demo được, vì phải upload cả file ảnh'
+      responses:
+        '200':
+          description: Tạo mới sản phẩm thành công
+          content:
+            application/json:
+              example:
+                - mesage: Tạo mới sản phẩm thành công
+  /product/{id}:
+    get:
+      tags:
+        - "product"
+      summary: Lấy thông tin sản phẩm dựa trên id
+      parameters:
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - message: OK
+                  data:
+                    productID: 1,
+                    product_name: iPhone 14 Pro,
+                    price: 24000000,
+                    description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
+                    quantity: 1,
+                    screen_size: 6.7,
+                    os: IOS,
+                    cpu: A16 Bionic,
+                    ram: 8,
+                    internal_storage: 128,
+                    main_cam_resolution: 48,
+                    front_cam_resolution: 12,
+                    battery: 4352,
+                    weight: 240,
+                    post_date: 2024-01-13T21:44:02.000Z,
+                    images: [
+                        {
+                            imageID: 1,
+                            image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
+                            productID: 1
+                        }
+                    ]
+  /product/news:
+    get:
+      tags:
+        - "product"
+      summary: Lấy thông tin sản phẩm mới nhất
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - message: OK
+                  products:
+                    
+                    - productID: 1,
+                      product_name: iPhone 14 Pro,
+                      price: 24000000,
+                      description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 1,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
+                              productID: 1
+                          }
+                      ]
+                    - productID: 4,
+                      product_name: Phone 13 Pro Max,
+                      price: 24000000,
+                      description: iPhone 12 ra mắt cách đây chưa lâu, thì những tin đồn mới nhất về iPhone 13 Pro Max đã khiến bao tín đồ công nghệ ngóng chờ. Cụm camera được nâng cấp, màu sắc mới, đặc biệt là màn hình 120Hz với phần notch được làm nhỏ gọn hơn chính là những điểm làm cho thu hút mọi sự chú ý trong năm nay.\\r\\n\\r\\nThiết kế cạnh phẳng sang trọng, nhiều màu sắc nổi bật\\r\\nDòng iPhone 12 được Apple áp dụng ngôn ngữ thiết kế tương tự iPhone 12 năm ngoái với phần cạnh viền máy được dát phẳng sang trọng cùng bốn góc được làm bo cong nhẹ, đây có thể được xem là một thiết kế hoài cổ từ dòng iPhone 5 trước đó. Vì thế mà iPhone 13 Pro Max nói riêng, cũng như dòng iPhone 13 nói chung, cũng sẽ đi theo ngôn ngữ thiết kế này.\\r\\n\\r\\nĐiểm thay đổi lớn trên 13 Pro Max có thể là phần nhô của cụm camera. Trong khi đó mặt trước của thiết bị được phủ một lớp Ceramic Shield, loại vật liệu cứng hơn bất kỳ loại kính điện thoại thông minh nào hiện có trên thị trường, giúp bảo vệ màn hình iPhone hiệu quả.,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 4,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705162573/product-images/lwhblbozqykk3nu5dkhp.png,
+                              productID: 4
+                          }
+                      ]
+                    
+
 
 
   # /users/{userId}:
