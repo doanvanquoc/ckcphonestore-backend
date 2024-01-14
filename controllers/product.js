@@ -62,9 +62,9 @@ const getProductByCompanyID = async (req, res) => {
   }
 };
 
-const getNewProducts = async (req, res) => {
+const getLatestProducts = async (req, res) => {
   try {
-    const products = await productService.getNewProduct()
+    const products = await productService.getLatestProducts()
     res.json(products) 
   } catch (error) {
     res.status(500).json(error)
@@ -72,4 +72,4 @@ const getNewProducts = async (req, res) => {
 };
 
 
-export default { getProductByCompanyID, getNewProducts, createProduct };
+export default { getProductByCompanyID, getLatestProducts, createProduct };

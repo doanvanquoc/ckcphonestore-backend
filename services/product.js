@@ -84,7 +84,7 @@ const getProductByCompanyID = (companyID) =>
     }
   });
 
-const getNewProduct = () =>
+const getLatestProducts = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
@@ -107,4 +107,4 @@ const getNewProduct = () =>
   });
 
 
-export default { createProduct, getProductByCompanyID, getNewProduct };
+export default { createProduct, getProductByCompanyID, getLatestProducts };
