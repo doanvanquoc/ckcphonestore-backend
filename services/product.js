@@ -93,6 +93,7 @@ const getNewProduct = () =>
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
         ],
+        limit: 5,
         order: [["post_date", "DESC"]],
       });
       if (products) {
