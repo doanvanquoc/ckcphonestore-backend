@@ -7,9 +7,9 @@ import YAML from 'yaml'
 import path from 'path'
 
 
-import authRouter from './routers/auth.router.js'
-import userRouter from './routers/user.router.js'
-import productRouter from './routers/product.router.js'
+import authRouter from './routers/auth.js'
+import userRouter from './routers/user.js'
+import productRouter from './routers/product.js'
 
 
 dotenv.config()

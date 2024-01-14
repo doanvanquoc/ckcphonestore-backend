@@ -28,5 +28,8 @@
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.4",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }

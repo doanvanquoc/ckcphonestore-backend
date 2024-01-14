@@ -1,4 +1,4 @@
-import Image from "../models/image.model.js"
+import Image from "../models/image.js"
 
 const createImage = (file, prodID) => {
     Image.create({
