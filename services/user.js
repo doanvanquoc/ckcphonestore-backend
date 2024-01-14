@@ -10,6 +10,9 @@ const getUserById = (id) => new Promise(async (resolve, reject) => {
         if (user) {
             resolve({message: 'OK', user})
         }
+        else {
+            resolve({message: 'Không tìm thấy người dùng'})
+        }
     } catch (error) {
         reject({message: 'Lỗi server'})
     }
