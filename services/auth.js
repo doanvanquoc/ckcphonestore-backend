@@ -1,7 +1,5 @@
 const db = require("../models");
 import jwt from "jsonwebtoken";
-import { raw } from "mysql2";
-import { where } from "sequelize";
 
 const login = ({ email, password }) =>
   new Promise(async (resolve, reject) => {
@@ -41,17 +39,22 @@ const register = ({
       if (check) {
         resolve({ message: "Email đã tồn tại" });
       } else {
-        const user = await db.User.create({
-          email,
-          password,
-          fullname,
-          birthday,
-          phone_number,
-          avatar,
-        });
+        const user = await db.User.create(
+          {
+            email,
+            password,
+            fullname,
+            birthday,
+            phone_number,
+            avatar,
+          }, {raw: true}
+        );
         if (user) {
-          console.log(user);
-          resolve({ message: "OK", user: user });
+          const token = jwt.sign({email: user.email, fullname: user.fullname, birthday: user.birthday, phone_number: user.phone_number, avatar: user.avatar}, process.env.SECRET_KEY, {
+            expiresIn: "1d",
+          });
+          console.log(jwt.verify(token, process.env.SECRET_KEY))
+          resolve({ message: "OK", token });
         } else {
           resolve({ message: "Không thể tạo mới người dùng" });
         }
