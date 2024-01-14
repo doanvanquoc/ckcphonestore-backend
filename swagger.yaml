@@ -223,7 +223,7 @@ paths:
             application/json:
               example:
                   message: OK
-                  companíe:
+                  companies:
                     - companyID: 1
                       company_name: Apple
                     - companyID: 2
