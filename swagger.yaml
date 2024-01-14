@@ -222,7 +222,7 @@ paths:
           content:
             application/json:
               example:
-                - message: OK
+                  message: OK
                   companíe:
                     - companyID: 1
                       company_name: Apple
