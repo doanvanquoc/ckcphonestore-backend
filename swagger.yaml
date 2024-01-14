@@ -16,6 +16,8 @@ tags:
     description: Các API liên quan đến user
   - name: product
     description: Các API liên quan đến sản phẩm
+  - name: company
+    description: Các API liên quan đến công ty (nhà sản xuất)
 paths:
   /auth/login:
     post:
@@ -209,6 +211,23 @@ paths:
                               productID: 4
                           }
                       ]
+  /company:
+    get:
+      tags:
+        - "company"
+      summary: Lấy danh sách các nhà sản xuất
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - message: OK
+                  companíe:
+                    - companyID: 1
+                      company_name: Apple
+                    - companyID: 2
+                      company_name: Samsung
                     
 
 
