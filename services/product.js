@@ -71,6 +71,9 @@ const getProductByID = (id) =>
       if (product) {
         resolve({ message: "OK", data: product });
       }
+      else {
+        resolve({message: 'Không tìm thấy sản phẩm nào'})
+      }
     } catch (error) {
       console.log(error);
       reject({ message: "Lỗi server", error });
@@ -81,14 +84,17 @@ const getNewProduct = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
-        include: [{model: db.Image, as: 'images', attributes: ['image_path']}], 
-        order: [["post_date", "DESC"]], 
+        attributes: {exclude: ['companyID']},
+        include: [
+          { model: db.Image, as: "images", attributes: ["image_path"] },
+          { model: db.Company, as: "company" },
+        ],
+        order: [["post_date", "DESC"]],
       });
       if (products) {
-        resolve({message: 'OK', data: products})
-      }
-      else {
-        resolve({message: 'Không tìm thấy sản phẩm nào'})
+        resolve({ message: "OK", data: products });
+      } else {
+        resolve({ message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
       reject({ message: "Lỗi server" });
