@@ -59,14 +59,18 @@ const createProduct = (
     }
   });
 
-const getProductByID = (id) =>
+const getProductByCompanyID = (companyID) =>
   new Promise(async (resolve, reject) => {
     try {
-      const product = await db.Product.findOne({
-        where: { productID: id },
+      const product = await db.Product.findAll({
+        where: { companyID },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
+          { model: db.Company, as: "companies"},
         ],
+        attributes: {
+          exclude: ['companyID']
+        }
       });
       if (product) {
         resolve({ message: "OK", data: product });
@@ -101,4 +105,5 @@ const getNewProduct = () =>
     }
   });
 
-export default { createProduct, getProductByID, getNewProduct };
+
+export default { createProduct, getProductByCompanyID, getNewProduct };

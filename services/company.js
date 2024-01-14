@@ -4,7 +4,7 @@ const getAllCompany = () => new Promise(async (resolve, reject) => {
     try {
         const companies = await db.Company.findAll()
         if (companies) {
-            resolve({message: 'OK', companies})
+            resolve({message: 'OK', data: companies})
         }
         else {
             resolve({message: 'Không có công ty nào'})

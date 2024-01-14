@@ -49,10 +49,13 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getProductByID = async (req, res) => {
-  const id = req.params.id;
+const getProductByCompanyID = async (req, res) => {
+  const companyID = req.params.companyID;
+  if (!companyID) {
+    return res.json({message: 'Vui lòng /company-id'})
+  }
   try {
-    const product = await productService.getProductByID(id);
+    const product = await productService.getProductByCompanyID(companyID);
     res.json(product)
   } catch (error) {
     res.status(500).json(error)
@@ -68,4 +71,5 @@ const getNewProducts = async (req, res) => {
   }
 };
 
-export default { getProductByID, getNewProducts, createProduct };
+
+export default { getProductByCompanyID, getNewProducts, createProduct };

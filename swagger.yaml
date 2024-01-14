@@ -84,7 +84,7 @@ paths:
           content:
             application/json:
               example:
-                - message: Thành công
+                  message: Thành công
                   data:
                     id: 1
                     email: admin@gmail.com
@@ -110,16 +110,16 @@ paths:
           content:
             application/json:
               example:
-                - mesage: Tạo mới sản phẩm thành công
+                mesage: Tạo mới sản phẩm thành công
   /product/{id}:
     get:
       tags:
         - "product"
-      summary: Lấy thông tin sản phẩm dựa trên id
+      summary: Lấy thông tin sản phẩm dựa trên id của công ty
       parameters:
         - name: id
           in: path
-          description: Product id
+          description: Company id
           required: true
           schema:
             type: string
@@ -129,30 +129,52 @@ paths:
           content:
             application/json:
               example:
-                - message: OK
+                  message: OK
                   data:
-                    productID: 1,
-                    product_name: iPhone 14 Pro,
-                    price: 24000000,
-                    description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
-                    quantity: 1,
-                    screen_size: 6.7,
-                    os: IOS,
-                    cpu: A16 Bionic,
-                    ram: 8,
-                    internal_storage: 128,
-                    main_cam_resolution: 48,
-                    front_cam_resolution: 12,
-                    battery: 4352,
-                    weight: 240,
-                    post_date: 2024-01-13T21:44:02.000Z,
-                    images: [
-                        {
-                            imageID: 1,
-                            image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
-                            productID: 1
-                        }
-                    ]
+                    - productID: 1,
+                      product_name: iPhone 14 Pro,
+                      price: 24000000,
+                      description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 1,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
+                              productID: 1
+                          }
+                      ]
+                    - productID: 2,
+                      product_name: iPhone 14 Pro,
+                      price: 24000000,
+                      description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 1,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
+                              productID: 1
+                          }
+                      ]
   /product/news:
     get:
       tags:
@@ -164,9 +186,8 @@ paths:
           content:
             application/json:
               example:
-                - message: OK
+                  message: OK
                   products:
-                    
                     - productID: 1,
                       product_name: iPhone 14 Pro,
                       price: 24000000,
