@@ -66,7 +66,7 @@ const getProductByCompanyID = (companyID) =>
         where: { companyID },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
-          { model: db.Company, as: "companies"},
+          { model: db.Company, as: "company"},
         ],
         attributes: {
           exclude: ['companyID']
