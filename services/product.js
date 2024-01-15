@@ -106,5 +106,27 @@ const getLatestProducts = () =>
     }
   });
 
+    //sẽ chuyển thành get product bán chạy sau
+  const getAllProduct = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const products = await db.Product.findAll({
+        attributes: {exclude: ['companyID']},
+        include: [
+          { model: db.Image, as: "images", attributes: ["image_path"] },
+          { model: db.Company, as: "company" },
+        ],
+        limit: 10,
+      });
+      if (products) {
+        resolve({ message: "OK", data: products });
+      } else {
+        resolve({ message: "Không tìm thấy sản phẩm nào" });
+      }
+    } catch (error) {
+      reject({ message: "Lỗi server" });
+    }
+  });
 
-export default { createProduct, getProductByCompanyID, getLatestProducts };
+
+export default { createProduct, getProductByCompanyID, getLatestProducts, getAllProduct };

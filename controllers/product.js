@@ -71,5 +71,14 @@ const getLatestProducts = async (req, res) => {
   }
 };
 
+const getAllProduct = async (req, res) => {
+  try {
+    const products = await productService.getAllProduct()
+    res.json(products) 
+  } catch (error) {
+    res.status(500).json(error)
+  }
+};
 
-export default { getProductByCompanyID, getLatestProducts, createProduct };
+
+export default { getProductByCompanyID, getLatestProducts, createProduct, getAllProduct };

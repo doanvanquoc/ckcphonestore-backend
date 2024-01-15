@@ -5,6 +5,7 @@ const uploadCloud = require('../config/cloudinary.js')
 
 const router = express.Router()
 
+router.get('/all', productController.getAllProduct)
 router.get('/latest', productController.getLatestProducts)
 router.get('/:companyID', productController.getProductByCompanyID)
 router.post('/create', uploadCloud.single('image'), productController.createProduct)
