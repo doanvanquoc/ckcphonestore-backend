@@ -1,5 +1,7 @@
 const db = require("../models");
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config()
 
 const login = ({ email, password }) =>
   new Promise(async (resolve, reject) => {
@@ -11,7 +13,7 @@ const login = ({ email, password }) =>
         },
       });
       if (user) {
-        const token = jwt.sign({ user }, process.env.SECRET_KEY, {
+        const token = jwt.sign({user}, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
         resolve({ message: "OK", token });
