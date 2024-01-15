@@ -1,6 +1,6 @@
 import express from 'express'
 import productController from '../controllers/product.js'
-const uploadCloud = require('../config/cloudinary.js')
+import cloud from '../config/cloudinary.js'
 
 
 const router = express.Router()
@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/all', productController.getAllProduct)
 router.get('/latest', productController.getLatestProducts)
 router.get('/:companyID', productController.getProductByCompanyID)
-router.post('/create', uploadCloud.single('image'), productController.createProduct)
+router.post('/create', cloud.uploadProductImage.single('image'), productController.createProduct)
 
 
 export default router

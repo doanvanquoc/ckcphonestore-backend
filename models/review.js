@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Review.belongsTo(models.User, {foreignKey: 'userID'})
+      Review.belongsTo(models.User, {foreignKey: 'userID', as: 'user'})
       Review.belongsTo(models.Product, {foreignKey: 'productID'})
     }
   }
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     content: DataTypes.STRING,
     review_date: DataTypes.DATE,
-    avg_rating: DataTypes.DOUBLE,
+    rating: DataTypes.DOUBLE,
     productID: DataTypes.INTEGER,
     userID: DataTypes.INTEGER,
   }, {
