@@ -16,8 +16,8 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { email, password, fullname, birthday, phone_number, avatar } = req.body;
-  if (!email || !password || !fullname || !phone_number || !avatar || !birthday) {
+  const { email, password, fullname, birthday, phone_number, avatar, sex } = req.body;
+  if (!email || !password || !fullname || !phone_number || !avatar || !birthday || !sex) {
     return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {

@@ -33,6 +33,7 @@ const register = ({
   birthday,
   phone_number,
   avatar,
+  sex
 }) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -50,10 +51,11 @@ const register = ({
             birthday,
             phone_number,
             avatar,
+            sex
           }, {raw: true}
         );
         if (user) {
-          const token = jwt.sign({email: user.email, fullname: user.fullname, birthday: user.birthday, phone_number: user.phone_number, avatar: user.avatar}, process.env.SECRET_KEY, {
+          const token = jwt.sign({email: user.email, fullname: user.fullname, birthday: user.birthday, phone_number: user.phone_number, avatar: user.avatar, sex: user.sex}, process.env.SECRET_KEY, {
             expiresIn: "1d",
           });
           console.log(jwt.verify(token, process.env.SECRET_KEY))
