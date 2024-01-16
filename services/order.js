@@ -25,30 +25,28 @@ const createOrder = (userID) =>
           statusID: 1,
         });
         if (order) {
-            for (const cart of carts) {
-                await db.OrderDetail.create({
-                  orderID: order.orderID,
-                  quantity: cart.quantity,
-                  productID: cart.product.productID,
-                  price: cart.product.price,
-                });
-                await db.Product.update(
-                  { quantity: cart.product.quantity - cart.quantity },
-                  { where: { productID: cart.product.productID } }
-                );
-              }
-              await db.Cart.destroy({ where: { userID } });
-              resolve({ message: "Tạo mới đơn hàng thành công", order });
+          for (const cart of carts) {
+            await db.OrderDetail.create({
+              orderID: order.orderID,
+              quantity: cart.quantity,
+              productID: cart.product.productID,
+              price: cart.product.price,
+            });
+            await db.Product.update(
+              { quantity: cart.product.quantity - cart.quantity },
+              { where: { productID: cart.product.productID } }
+            );
+          }
+          await db.Cart.destroy({ where: { userID } });
+          resolve({ code: 1, message: "Tạo mới đơn hàng thành công", order });
+        } else {
+          resolve({ code: 0, message: "Không tạo được đơn hàng" });
         }
-        else {
-            resolve({message: 'Không tạo được đơn hàng'})
-        }
-        
       } else {
-        resolve({ message: "Người dùng không có gì trong giỏ hàng" });
+        resolve({ code: 0, message: "Người dùng không có gì trong giỏ hàng" });
       }
     } catch (error) {
-      reject({ message: "Lỗi server", error });
+      reject({ code: 0, message: "Lỗi server", error });
     }
   });
 

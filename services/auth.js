@@ -18,12 +18,15 @@ const login = ({ email, password }) =>
         const token = jwt.sign({ user }, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
-        resolve({ message: "OK", token });
+        resolve({ code: 1, message: "OK", token });
       } else {
-        resolve({ message: "Tài khoản hoặc mật khẩu không chính xác" });
+        resolve({
+          code: 0,
+          message: "Tài khoản hoặc mật khẩu không chính xác",
+        });
       }
     } catch (error) {
-      reject({ message: `Lỗi server: ${error}` });
+      reject({ code: 0, message: `Lỗi server: ${error}` });
     }
   });
 const register = (userData) =>
@@ -40,7 +43,7 @@ const register = (userData) =>
         if (file) {
           cloudinary.uploader.destroy(file.filename);
         }
-        resolve({code: 0, message: "Email đã tồn tại" });
+        resolve({ code: 0, message: "Email đã tồn tại" });
       } else {
         const avatarPath = file
           ? file.path
@@ -77,19 +80,19 @@ const register = (userData) =>
           );
 
           console.log(jwt.verify(token, process.env.SECRET_KEY));
-          resolve({code:1 , message: "OK", token });
+          resolve({ code: 1, message: "OK", token });
         } else {
           if (file) {
             cloudinary.uploader.destroy(file.filename);
           }
-          resolve({code: 0, message: "Không thể tạo mới người dùng" });
+          resolve({ code: 0, message: "Không thể tạo mới người dùng" });
         }
       }
     } catch (error) {
       if (userData.file) {
         cloudinary.uploader.destroy(userData.file.filename);
       }
-      reject({ message: `Lỗi server: ${error}` });
+      reject({ code: 0, message: `Lỗi server: ${error}` });
     }
   });
 
@@ -105,8 +108,9 @@ const checkEmail = (email) =>
         resolve({ code: 1, message: "Email chưa tồn tại" });
       }
     } catch (error) {
-      reject({ message: "Lỗi server", error });
+      reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
 
 export default { login, register, checkEmail };

@@ -40,8 +40,8 @@ paths:
           content:
             application/json:
               example:
-                - mesage: Đăng nhập thành công
-                  userID: 1
+                  code: 1
+                  mesage: OK
                   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluMiIsImlhdCI6MTcwNDkwMTg1NiwiZXhwIjoxNzA0OTAxOTE2fQ.vimknPL9V2WdyS2lLUlhyBe1T-YeFOQElo0DH5Qz23k
   /auth/register:
     post:
@@ -58,15 +58,17 @@ paths:
               password: '123456'
               fullname: 'Admin4'
               birthday: 2003-06-27
-              phoneNumber: '0388780055'
-              avatar: https://randomuser.me/api/portraits/men/9.jpg
+              phone_number: '0388780055'
+              avatar: 
+              sex: Nam
       responses:
         '201':
           description: Người dùng mới đã được tạo thành công
           content:
             application/json:
               example:
-                - message: Tạo user mới thành công
+                  code: 1
+                  message: Tạo user mới thành công
                   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJhZG1pbjNAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJhYmMiLCJiaXJ0aGRheSI6IjIwMDMtMDYtMjdUMDA6MDA6MDAuMDAwWiIsInBob25lTnVtYmVyIjoiMDM4ODc4MDAwMSIsImF2YXRhciI6Imh0dHBzOi8vcmFuZG9tdXNlci5tZS9hcGkvcG9ydHJhaXRzL21lbi85MTBqcGciLCJpYXQiOjE3MDUxMzQ3MzMsImV4cCI6MTcwNTEzNDc5M30.g-68vG7rIPSN91K3gTcLx_BC9iHB1tvGk_cP4gJIsc8
   /product/create:
     post:
@@ -86,6 +88,7 @@ paths:
           content:
             application/json:
               example:
+                code: 1
                 mesage: Tạo mới sản phẩm thành công
   /product/{id}:
     get:
@@ -105,6 +108,7 @@ paths:
           content:
             application/json:
               example:
+                  code: 1
                   message: OK
                   data:
                     - productID: 1,
@@ -162,6 +166,7 @@ paths:
           content:
             application/json:
               example:
+                  code: 1
                   message: OK
                   products:
                     - productID: 1,
@@ -219,6 +224,7 @@ paths:
           content:
             application/json:
               example:
+                  code: 1
                   message: OK
                   products:
                     - productID: 1,
@@ -277,6 +283,7 @@ paths:
           content:
             application/json:
               example:
+                  code: 1
                   message: OK
                   companies:
                     - companyID: 1
@@ -301,6 +308,7 @@ paths:
           content:
             application/json:
               example:
+                  code: 1
                   mesage: Tạo mới đơn hàng thành công
                   order: 
                     order_date: 2024-01-16T08:44:57.841Z,
@@ -308,3 +316,108 @@ paths:
                     total_price: 137970000,
                     userID: 2,
                     statusID: 1
+
+  /user/change-pass:
+    post:
+      tags:
+        - "user"
+      summary: Đổi mật khẩu người dùng
+      description: Đổi mật khẩu người dùng
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              userID: 1
+              password: 1234423
+      responses:
+        '200':
+          description: Đổi mật khẩu thành công
+          content:
+            application/json:
+              example:
+                  code: 1
+                  mesage: Đổi mật khẩu thành công
+
+  /auth/verify:
+    post:
+      tags:
+        - "auth"
+      summary: Check tính hợp lệ của token
+      description: Check tính hợp lệ của token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJRCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJmdWxsbmFtZSI6IkRvYW4gVmFuIFF1b2MiLCJiaXJ0aGRheSI6IjIwMDMtMDYtMjciLCJwaG9uZV9udW1iZXIiOiIwMzg4NzgwMDUyIiwiYXZhdGFyIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZHhlOHlrbXJuL2ltYWdlL3VwbG9hZC92MTcwNTE0NTQ3My91c2VyLWF2YXRhci9veGd2OXhyNGxkdjAyejBodHhyNC5wbmciLCJzZXgiOiJOYW0ifSwiaWF0IjoxNzA1NDE3NDY0LCJleHAiOjE3MDU1MDM4NjR9.PmGyBjLOG33N3LLSNgn3gt800OExKQLFHnegEy6d4Mc
+      responses:
+        '200':
+          description: Đổi mật khẩu thành công
+          content:
+            application/json:
+              example:
+                  code: 1
+                  data: 
+                      userID: 1
+                      email: admin@gmail.com
+                      fullname: Doan Van Quoc
+                      birthday: 2003-06-27
+                      phone_number: 0388780052
+                      avatar: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705145473/user-avatar/oxgv9xr4ldv02z0htxr4.png
+                      sex: Nam
+  /user/update:
+    post:
+      tags:
+        - "user"
+      summary: Cập nhật thông tin user
+      description: Cập nhật thông tin user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              email: 'vanquoc@gmail.com'
+              password: '123456'
+              fullname: 'Admin4'
+              birthday: 2003-06-27
+              phone_number: '0388780055'
+              sex: Nam
+      responses:
+        '201':
+          description: Cập nhật thông tin thành công
+          content:
+            application/json:
+              example:
+                  code: 1
+                  message: Cập nhật thành công
+                  user:
+                    userID: 1
+                    email: 'vanquoc@gmail.com'
+                    password: '123456'
+                    fullname: 'Admin4'
+                    birthday: 2003-06-27
+                    phone_number: '0388780055'
+                    sex: Nam
+  
+  /auth/check:
+    post:
+      tags:
+        - "auth"
+      summary: Check email đã tồn tại trong hệ thống hay chưa
+      description: Check email đã tồn tại trong hệ thống hay chưa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              email: admin@gmail.com
+      responses:
+        '200':
+          description: Kiểm tra thành công
+          content:
+            application/json:
+              example:
+                  code: 1
+                  mesage: Email chưa tồn tại
+                

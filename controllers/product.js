@@ -1,4 +1,3 @@
-
 const cloudinary = require("cloudinary").v2;
 import productService from "../services/product.js";
 
@@ -39,46 +38,54 @@ const createProduct = async (req, res) => {
     !post_date
   ) {
     cloudinary.uploader.destroy(req.file.filename);
-    return res.json({ message: "Vui lòng điền đầy đủ thông tin" });
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
     const result = await productService.createProduct(req.body, req.file);
-    res.json(result)
+    res.json(result);
   } catch (error) {
-    return res.status(500).json(error)
+    return res.status(500).json(error);
   }
 };
 
 const getProductByCompanyID = async (req, res) => {
   const companyID = req.params.companyID;
   if (!companyID) {
-    return res.json({message: 'Vui lòng /company-id'})
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
     const product = await productService.getProductByCompanyID(companyID);
-    res.json(product)
+    res.json(product);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
 };
 
 const getLatestProducts = async (req, res) => {
   try {
-    const products = await productService.getLatestProducts()
-    res.json(products) 
+    const products = await productService.getLatestProducts();
+    res.json(products);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
 };
 
 const getAllProduct = async (req, res) => {
   try {
-    const products = await productService.getAllProduct()
-    res.json(products) 
+    const products = await productService.getAllProduct();
+    res.json(products);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
 };
 
-
-export default { getProductByCompanyID, getLatestProducts, createProduct, getAllProduct };
+export default {
+  getProductByCompanyID,
+  getLatestProducts,
+  createProduct,
+  getAllProduct,
+};

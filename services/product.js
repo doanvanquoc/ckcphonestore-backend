@@ -45,15 +45,14 @@ const createProduct = (
           image_path: file.path,
           productID: product.productID,
         });
-        resolve({
-          message: "Tạo mới sản phẩm thành công",
-        });
+        resolve({ code: 1, message: "Tạo mới sản phẩm thành công" });
       } else {
         cloudinary.uploader.destroy(file.filename);
-        res.json({ message: "Tạo mới sản phẩm thất bại" });
+        res.json({ code: 0, message: "Tạo mới sản phẩm thất bại" });
       }
     } catch (error) {
       reject({
+        code: 0,
         message: "Lỗi server",
       });
     }
@@ -66,21 +65,20 @@ const getProductByCompanyID = (companyID) =>
         where: { companyID },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
-          { model: db.Company, as: "company"},
+          { model: db.Company, as: "company" },
         ],
         attributes: {
-          exclude: ['companyID']
-        }
+          exclude: ["companyID"],
+        },
       });
       if (product) {
-        resolve({ message: "OK", data: product });
-      }
-      else {
-        resolve({message: 'Không tìm thấy sản phẩm nào'})
+        resolve({ code: 1, message: "OK", data: product });
+      } else {
+        resolve({ code: 0, message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
       console.log(error);
-      reject({ message: "Lỗi server", error });
+      reject({ code: 0, message: "Lỗi server", error });
     }
   });
 
@@ -88,7 +86,7 @@ const getLatestProducts = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
-        attributes: {exclude: ['companyID']},
+        attributes: { exclude: ["companyID"] },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
@@ -97,21 +95,21 @@ const getLatestProducts = () =>
         order: [["post_date", "DESC"]],
       });
       if (products) {
-        resolve({ message: "OK", data: products });
+        resolve({ code: 1, message: "OK", data: products });
       } else {
-        resolve({ message: "Không tìm thấy sản phẩm nào" });
+        resolve({ code: 0, message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
-      reject({ message: "Lỗi server" });
+      reject({ code: 0, message: "Lỗi server" });
     }
   });
 
-    //sẽ chuyển thành get product bán chạy sau
-  const getAllProduct = () =>
+//sẽ chuyển thành get product bán chạy sau
+const getAllProduct = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
-        attributes: {exclude: ['companyID']},
+        attributes: { exclude: ["companyID"] },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
@@ -119,14 +117,18 @@ const getLatestProducts = () =>
         limit: 10,
       });
       if (products) {
-        resolve({ message: "OK", data: products });
+        resolve({ code: 1, message: "OK", data: products });
       } else {
-        resolve({ message: "Không tìm thấy sản phẩm nào" });
+        resolve({ code: 0, message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
-      reject({ message: "Lỗi server" });
+      reject({ code: 0, message: "Lỗi server" });
     }
   });
 
-
-export default { createProduct, getProductByCompanyID, getLatestProducts, getAllProduct };
+export default {
+  createProduct,
+  getProductByCompanyID,
+  getLatestProducts,
+  getAllProduct,
+};
