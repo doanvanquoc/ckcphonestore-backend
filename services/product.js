@@ -42,14 +42,14 @@ const createProduct = (
       });
       if (product) {
         await db.Image.create({
-          image_path: file,
+          image_path: file.path,
           productID: product.productID,
         });
         resolve({
           message: "Tạo mới sản phẩm thành công",
         });
       } else {
-        cloudinary.uploader.destroy(req.file.filename);
+        cloudinary.uploader.destroy(file.filename);
         res.json({ message: "Tạo mới sản phẩm thất bại" });
       }
     } catch (error) {

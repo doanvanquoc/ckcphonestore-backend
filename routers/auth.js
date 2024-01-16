@@ -1,9 +1,11 @@
 import express from 'express'
 import authController from '../controllers/auth.js'
+import cloud from '../config/cloudinary.js'
+
 const router = express.Router()
 
 router.post('/login', authController.login)
 
-router.post('/register', authController.register)
+router.post('/register', cloud.uploadAvatar.single('avatar'), authController.register)
 
 export default router

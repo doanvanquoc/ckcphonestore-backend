@@ -42,7 +42,7 @@ const createProduct = async (req, res) => {
     return res.json({ message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
-    const result = await productService.createProduct(req.body, req.file.path);
+    const result = await productService.createProduct(req.body, req.file);
     res.json(result)
   } catch (error) {
     return res.status(500).json(error)

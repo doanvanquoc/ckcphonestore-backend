@@ -28,6 +28,6 @@ const avatarStorage = new CloudinaryStorage({
 });
 
 const uploadProductImage = multer({ storage });
-const uploadAvatar = multer({ avatarStorage });
+const uploadAvatar = multer({ storage: avatarStorage });
 
 export default {uploadProductImage, uploadAvatar};

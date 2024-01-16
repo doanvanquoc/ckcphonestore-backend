@@ -2,6 +2,7 @@ const db = require("../models");
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 dotenv.config()
+const cloudinary = require("cloudinary").v2;
 
 const login = ({ email, password }) =>
   new Promise(async (resolve, reject) => {
@@ -22,6 +23,7 @@ const login = ({ email, password }) =>
         resolve({ message: "Tài khoản hoặc mật khẩu không chính xác" });
       }
     } catch (error) {
+      
       reject({ message: `Lỗi server: ${error}` });
     }
   });
@@ -32,15 +34,15 @@ const register = ({
   fullname,
   birthday,
   phone_number,
-  avatar,
   sex
-}) =>
+}, file) =>
   new Promise(async (resolve, reject) => {
     try {
       const check = await db.User.findOne({
         where: { email },
       });
       if (check) {
+        cloudinary.uploader.destroy(file.filename)
         resolve({ message: "Email đã tồn tại" });
       } else {
         const user = await db.User.create(
@@ -50,7 +52,7 @@ const register = ({
             fullname,
             birthday,
             phone_number,
-            avatar,
+            avatar: file.path,
             sex
           }, {raw: true}
         );
@@ -61,10 +63,12 @@ const register = ({
           console.log(jwt.verify(token, process.env.SECRET_KEY))
           resolve({ message: "OK", token });
         } else {
+          cloudinary.uploader.destroy(file.filename)
           resolve({ message: "Không thể tạo mới người dùng" });
         }
       }
     } catch (error) {
+      cloudinary.uploader.destroy(file.filename)
       reject({ message: `Lỗi server: ${error}` });
     }
   });
