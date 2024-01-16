@@ -12,6 +12,8 @@ servers:
 tags:
   - name: auth
     description: Các API liên quan đến đăng nhập và đăng ký
+  - name: review
+    description: Các API liên quan đến đánh giá  
   - name: user
     description: Các API liên quan đến user
   - name: product
@@ -421,3 +423,44 @@ paths:
                   code: 1
                   mesage: Email chưa tồn tại
                 
+
+  /review/{id}:
+     get:
+      tags:
+        - "review"
+      summary: Lấy danh sách review theo sản phẩm
+      parameters:
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                  code: 1
+                  message: OK
+                  data:
+                    - reviewID: 2
+                      content: Điện thoại mua về sài ok quá cho 1 sao
+                      review_date: 2024-01-15
+                      rating: 1
+                      user: 
+                        userID: 2
+                        email: asdsa@gmail.com
+                        fullname: hihi
+                        avatar: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705145465/user-avatar/nftt7rkjyuqxqtsqtujk.png
+                    - reviewID: 3
+                      content: Hello
+                      review_date: 2024-01-15
+                      rating: 1
+                      user: 
+                        userID: 2
+                        email: asdsăea@gmail.com
+                        fullname: hưqewqe
+                        avatar: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705145465/user-avatar/nftt7rkjyuqxqtsqtujk.png
+                      
