@@ -13,6 +13,7 @@ const login = ({ email, password }) =>
         },
       });
       if (user) {
+        console.log(process.env.SECRET_KEY)
         const token = jwt.sign({user}, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
