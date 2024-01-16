@@ -54,4 +54,14 @@ const register = async (req, res) => {
   }
 };
 
-export default { login, register };
+const checkEmail = async (req, res) => {
+  const email = req.body.email
+  try {
+    const result = await authService.checkEmail(email)
+    res.json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+export default { login, register, checkEmail };

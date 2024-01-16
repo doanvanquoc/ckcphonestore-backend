@@ -5,6 +5,7 @@ import cloud from '../config/cloudinary.js'
 const router = express.Router()
 
 router.post('/login', authController.login)
+router.post('/check', authController.checkEmail)
 
 router.post('/register', cloud.uploadAvatar.single('avatar'), authController.register)
 

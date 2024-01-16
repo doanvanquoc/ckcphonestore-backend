@@ -40,7 +40,7 @@ const register = (userData) =>
         if (file) {
           cloudinary.uploader.destroy(file.filename);
         }
-        resolve({ message: "Email đã tồn tại" });
+        resolve({code: 0, message: "Email đã tồn tại" });
       } else {
         const avatarPath = file
           ? file.path
@@ -61,7 +61,15 @@ const register = (userData) =>
 
         if (user) {
           const token = jwt.sign(
-            {email: user.email, fullname: user.fullname, birthday: user.birthday, phone_number: user.phone_number, avatar: user.avatar, sex: user.sex},
+            {
+              id: user.userID,
+              email: user.email,
+              fullname: user.fullname,
+              birthday: user.birthday,
+              phone_number: user.phone_number,
+              avatar: user.avatar,
+              sex: user.sex,
+            },
             process.env.SECRET_KEY,
             {
               expiresIn: "1d",
@@ -69,12 +77,12 @@ const register = (userData) =>
           );
 
           console.log(jwt.verify(token, process.env.SECRET_KEY));
-          resolve({ message: "OK", token });
+          resolve({code:1 , message: "OK", token });
         } else {
           if (file) {
             cloudinary.uploader.destroy(file.filename);
           }
-          resolve({ message: "Không thể tạo mới người dùng" });
+          resolve({code: 0, message: "Không thể tạo mới người dùng" });
         }
       }
     } catch (error) {
@@ -85,4 +93,20 @@ const register = (userData) =>
     }
   });
 
-export default { login, register };
+const checkEmail = (email) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const user = await db.User.findOne({
+        where: { email },
+      });
+      if (user) {
+        resolve({ code: 0, message: "Email đã tồn tại" });
+      } else {
+        resolve({ code: 1, message: "Email chưa tồn tại" });
+      }
+    } catch (error) {
+      reject({ message: "Lỗi server", error });
+    }
+  });
+
+export default { login, register, checkEmail };
