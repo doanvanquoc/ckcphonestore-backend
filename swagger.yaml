@@ -18,6 +18,8 @@ tags:
     description: Các API liên quan đến sản phẩm
   - name: company
     description: Các API liên quan đến công ty (nhà sản xuất)
+  - name: order
+    description: Các API liên quan đến đơn hàng
 paths:
   /auth/login:
     post:
@@ -66,32 +68,6 @@ paths:
               example:
                 - message: Tạo user mới thành công
                   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJhZG1pbjNAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJhYmMiLCJiaXJ0aGRheSI6IjIwMDMtMDYtMjdUMDA6MDA6MDAuMDAwWiIsInBob25lTnVtYmVyIjoiMDM4ODc4MDAwMSIsImF2YXRhciI6Imh0dHBzOi8vcmFuZG9tdXNlci5tZS9hcGkvcG9ydHJhaXRzL21lbi85MTBqcGciLCJpYXQiOjE3MDUxMzQ3MzMsImV4cCI6MTcwNTEzNDc5M30.g-68vG7rIPSN91K3gTcLx_BC9iHB1tvGk_cP4gJIsc8
-  /user/{id}:
-    get:
-      tags:
-        - "user"
-      summary: Lấy thông tin user dựa trên id
-      parameters:
-        - name: id
-          in: path
-          description: User id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              example:
-                  message: Thành công
-                  data:
-                    id: 1
-                    email: admin@gmail.com
-                    fullname: Doan Van Quoc
-                    birthday: 2003-06-27
-                    phoneNumber: '0388780052'
-                    avatar: https://randomuser.me/api/portraits/men/9.jpg
   /product/create:
     post:
       tags:
@@ -175,7 +151,64 @@ paths:
                               productID: 1
                           }
                       ]
-  /product/news:
+  /product/all:
+    get:
+      tags:
+        - "product"
+      summary: Lấy thông tin tất cả sản phẩm
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                  message: OK
+                  products:
+                    - productID: 1,
+                      product_name: iPhone 14 Pro,
+                      price: 24000000,
+                      description: iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 1,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705139247/product-images/tjklyko4zdaa9sjhysle.png,
+                              productID: 1
+                          }
+                      ]
+                    - productID: 4,
+                      product_name: Phone 13 Pro Max,
+                      price: 24000000,
+                      description: iPhone 12 ra mắt cách đây chưa lâu, thì những tin đồn mới nhất về iPhone 13 Pro Max đã khiến bao tín đồ công nghệ ngóng chờ. Cụm camera được nâng cấp, màu sắc mới, đặc biệt là màn hình 120Hz với phần notch được làm nhỏ gọn hơn chính là những điểm làm cho thu hút mọi sự chú ý trong năm nay.\\r\\n\\r\\nThiết kế cạnh phẳng sang trọng, nhiều màu sắc nổi bật\\r\\nDòng iPhone 12 được Apple áp dụng ngôn ngữ thiết kế tương tự iPhone 12 năm ngoái với phần cạnh viền máy được dát phẳng sang trọng cùng bốn góc được làm bo cong nhẹ, đây có thể được xem là một thiết kế hoài cổ từ dòng iPhone 5 trước đó. Vì thế mà iPhone 13 Pro Max nói riêng, cũng như dòng iPhone 13 nói chung, cũng sẽ đi theo ngôn ngữ thiết kế này.\\r\\n\\r\\nĐiểm thay đổi lớn trên 13 Pro Max có thể là phần nhô của cụm camera. Trong khi đó mặt trước của thiết bị được phủ một lớp Ceramic Shield, loại vật liệu cứng hơn bất kỳ loại kính điện thoại thông minh nào hiện có trên thị trường, giúp bảo vệ màn hình iPhone hiệu quả.,
+                      quantity: 1,
+                      screen_size: 6.7,
+                      os: IOS,
+                      cpu: A16 Bionic,
+                      ram: 8,
+                      internal_storage: 128,
+                      main_cam_resolution: 48,
+                      front_cam_resolution: 12,
+                      battery: 4352,
+                      weight: 240,
+                      post_date: 2024-01-13T21:44:02.000Z,
+                      images: [
+                          {
+                              imageID: 4,
+                              image_path: https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705162573/product-images/lwhblbozqykk3nu5dkhp.png,
+                              productID: 4
+                          }
+                      ]
+  /product/latest:
     get:
       tags:
         - "product"
@@ -232,6 +265,7 @@ paths:
                               productID: 4
                           }
                       ]
+
   /company:
     get:
       tags:
@@ -249,25 +283,28 @@ paths:
                       company_name: Apple
                     - companyID: 2
                       company_name: Samsung
-                    
-
-
-
-  # /users/{userId}:
-  #   parameters:
-  #     - name: userId
-  #       in: path
-  #       description: ID của người dùng
-  #       required: true
-  #       schema:
-  #         type: integer
-  #   get:
-  #     summary: Lấy thông tin chi tiết của một người dùng
-  #     responses:
-  #       '200':
-  #         description: Thông tin chi tiết của người dùng đã được trả về thành công
-  #         content:
-  #           application/json:
-  #             example:
-  #               id: 1
-  #               name: John Doe
+  /order/create:
+    post:
+      tags:
+        - "order"
+      summary: Tạo mới đơn hàng dựa trên user ID
+      description: Tạo mới đơn hàng cho người dùng từ giỏ hàng sau khi thanh toán
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              id: 1
+      responses:
+        '200':
+          description: Tạo mới đơn hàng thành công
+          content:
+            application/json:
+              example:
+                  mesage: Tạo mới đơn hàng thành công
+                  order: 
+                    order_date: 2024-01-16T08:44:57.841Z,
+                    orderID: 5,
+                    total_price: 137970000,
+                    userID: 2,
+                    statusID: 1
