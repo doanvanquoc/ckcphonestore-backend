@@ -20,4 +20,19 @@ const getAllProduct = (userID) => new Promise(async (resolve, reject) => {
     }
 })
 
-export default {getAllProduct}
+const deleteProduct = (productID) => new Promise(async (resolve, reject) => {
+    try {
+        const result = await db.Cart.destroy({where: {productID}})
+        console.log(result)
+        if (result > 0) {
+            resolve({code: 1, message: 'Xóa sản phẩm khỏi giỏ hàng thành công'})
+        }
+        else {
+            resolve({code: 0, message: 'Không có sản phẩm này trong giỏ hàng'})
+        }
+    } catch (error) {
+        reject({code: 0, message: 'Lỗi server', error})
+    }
+})
+
+export default {getAllProduct, deleteProduct}

@@ -130,4 +130,5 @@ export default {
   getProductByCompanyID,
   getLatestProducts,
   getAllProduct,
+
 };
