@@ -50,4 +50,26 @@ const createOrder = (userID) =>
     }
   });
 
-export default { createOrder };
+const getUserOrder = (userID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const result = await db.Order.findAll({
+        where: { userID },
+        include: [{ model: db.Status, as: "status" }],
+      });
+      if (result && result.length > 0) {
+        resolve({
+          code: 1,
+          message: "Lấy thông tin đơn hàng thành công",
+          data: result,
+        });
+      }
+      else {
+        resolve({code: 0, message: 'Người dùng không có đơn hàng nào'})
+      }
+    } catch (error) {
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+export default { createOrder, getUserOrder };
