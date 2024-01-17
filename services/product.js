@@ -114,7 +114,6 @@ const getAllProduct = () =>
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
         ],
-        limit: 10,
       });
       if (products) {
         resolve({ code: 1, message: "OK", data: products });
