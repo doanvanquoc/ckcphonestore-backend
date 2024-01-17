@@ -4,7 +4,7 @@ const getAllProduct = (userID) => new Promise(async (resolve, reject) => {
     try {
         const carts = await db.Cart.findAll({
             where: {userID},
-            include: [{model: db.Product, as: "product", include: [{model: db.Company, as: 'company'}]}, ],
+            include: [{model: db.Product, as: "product", include: [{model: db.Company, as: 'company'}, {model: db.Image, as: 'images',attributes: ["image_path"]}]}, ],
             attributes: {
                 exclude: ['userID', 'productID', 'cartID']
             }
