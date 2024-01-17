@@ -1,4 +1,7 @@
 const db = require("../models");
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
 const getUserById = (id) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -33,7 +36,10 @@ const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
           where: { userID: newUser },
           attributes: { exclude: ["password"] },
         });
-        resolve({ code: 1, message: "Cập nhật thành công", userInfo });
+        const token = jwt.sign({user: userInfo}, process.env.SECRET_KEY, {
+          expiresIn: "1d",
+        })
+        resolve({ code: 1, message: "Cập nhật thành công", token });
       } else {
         resolve({ code: 0, message: "Email đã tồn tại" });
       }
