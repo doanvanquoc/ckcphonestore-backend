@@ -331,7 +331,8 @@ paths:
           application/json:
             example:
               userID: 1
-              password: 1234423
+              oldPass: 1234423
+              newPass: 123456
       responses:
         '200':
           description: Đổi mật khẩu thành công
@@ -379,6 +380,7 @@ paths:
         content:
           application/json:
             example:
+              userID: 1
               email: 'vanquoc@gmail.com'
               password: '123456'
               fullname: 'Admin4'

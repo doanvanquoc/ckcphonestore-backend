@@ -42,14 +42,23 @@ const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
     }
   });
 
-const changePass = (userID, password) =>
+const changePass = ({userID,oldPass, newPass}) =>
   new Promise(async (resolve, reject) => {
     try {
-      const result = await db.User.update({ password }, { where: { userID } });
-      if (result > 0) {
-        resolve({ code: 1, message: "Đổi mật khẩu thành công" });
-      } else {
-        resolve({ code: 1, message: "Đổi mật khẩu thất bại" });
+      const user = await db.User.findOne({ where: { userID, password: oldPass } });
+      if (user) {
+        const result = await db.User.update(
+          { password: newPass },
+          { where: { userID } }
+        );
+        if (result > 0) {
+          resolve({ code: 1, message: "Đổi mật khẩu thành công" });
+        } else {
+          resolve({ code: 0, message: "Đổi mật khẩu thất bại" });
+        }
+      }
+      else {
+        resolve({ code: 0, message: "Mật khẩu cũ không chính xác" });
       }
     } catch (error) {
       reject({ code: 0, message: "Lỗi server", error });

@@ -24,12 +24,12 @@ const updateUser = async (req, res) => {
 };
 
 const changePass = async (req, res) => {
-  const { userID, password } = req.body;
-  if (!userID || !password) {
+  const { userID, oldPass, newPass } = req.body;
+  if (!userID || !oldPass || !newPass) {
     return res.json({ code: 0, message: "Vui lòng điền đầy đủ thôn tin" });
   }
   try {
-    const result = await userService.changePass(userID, password);
+    const result = await userService.changePass(req.body);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);
