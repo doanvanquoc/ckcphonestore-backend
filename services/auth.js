@@ -14,7 +14,6 @@ const login = ({ email, password }) =>
         },
       });
       if (user) {
-        console.log(process.env.SECRET_KEY);
         const token = jwt.sign({ user }, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
@@ -79,7 +78,6 @@ const register = (userData) =>
               expiresIn: "1d",
             }
           );
-          console.log(jwt.verify(token, process.env.SECRET_KEY));
           resolve({ code: 1, message: "OK", token });
         } else {
           if (file) {

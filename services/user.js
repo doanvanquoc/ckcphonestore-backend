@@ -1,7 +1,7 @@
 const db = require("../models");
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-dotenv.config()
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 const getUserById = (id) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -24,34 +24,54 @@ const getUserById = (id) =>
 const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const user = await db.User.findOne({ where: { email } });
-      if (!user) {
-        const newUser = await db.User.update(
-          { email, phone_number, fullname, birthday, sex },
-          {
-            where: { userID },
+      const user = await db.User.findOne({ where: { userID } });
+      if (user) {
+        const updateFields = {
+          ...(email && { email }),
+          ...(phone_number && { phone_number }),
+          ...(fullname && { fullname }),
+          ...(birthday && { birthday }),
+          ...(sex && { sex }),
+        };
+        if (email) {
+          if (email === user.email) {
+            resolve({ code: 0, message: "Email trùng với email cũ" });
+            return;
+          } else {
+            const user = await db.User.findOne({ where: { email } });
+            if (user) {
+              resolve({
+                code: 0,
+                message: "Email trùng với email trong hệ thống",
+              });
+              return;
+            }
           }
-        );
+        }
+
+        await db.User.update(updateFields, { where: { userID } });
         const userInfo = await db.User.findOne({
-          where: { userID: newUser },
+          where: { userID },
           attributes: { exclude: ["password"] },
         });
-        const token = jwt.sign({user: userInfo}, process.env.SECRET_KEY, {
+        const token = jwt.sign({ user: userInfo }, process.env.SECRET_KEY, {
           expiresIn: "1d",
-        })
+        });
         resolve({ code: 1, message: "Cập nhật thành công", token });
       } else {
-        resolve({ code: 0, message: "Email đã tồn tại" });
+        resolve({ code: 0, message: "User không tồn tại" });
       }
     } catch (error) {
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
 
-const changePass = ({userID,oldPass, newPass}) =>
+const changePass = ({ userID, oldPass, newPass }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const user = await db.User.findOne({ where: { userID, password: oldPass } });
+      const user = await db.User.findOne({
+        where: { userID, password: oldPass },
+      });
       if (user) {
         const result = await db.User.update(
           { password: newPass },
@@ -62,8 +82,7 @@ const changePass = ({userID,oldPass, newPass}) =>
         } else {
           resolve({ code: 0, message: "Đổi mật khẩu thất bại" });
         }
-      }
-      else {
+      } else {
         resolve({ code: 0, message: "Mật khẩu cũ không chính xác" });
       }
     } catch (error) {

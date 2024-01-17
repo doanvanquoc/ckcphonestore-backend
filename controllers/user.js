@@ -12,7 +12,7 @@ const getUserByID = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { userID, email, fullname, sex, birthday, phone_number } = req.body;
-  if (!userID || !email || !fullname || !sex || !birthday || !phone_number) {
+  if (!userID) {
     return res.json({ code: 0, message: "Vui lòng điền đầy đủ thôn tin" });
   }
   try {

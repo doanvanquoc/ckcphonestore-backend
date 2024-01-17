@@ -23,7 +23,6 @@ const getAllProduct = (userID) => new Promise(async (resolve, reject) => {
 const deleteProduct = (productID) => new Promise(async (resolve, reject) => {
     try {
         const result = await db.Cart.destroy({where: {productID}})
-        console.log(result)
         if (result > 0) {
             resolve({code: 1, message: 'Xóa sản phẩm khỏi giỏ hàng thành công'})
         }

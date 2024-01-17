@@ -77,7 +77,6 @@ const getProductByCompanyID = (companyID) =>
         resolve({ code: 0, message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
-      console.log(error);
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
