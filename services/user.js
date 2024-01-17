@@ -1,6 +1,8 @@
 const db = require("../models");
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import cloud from '../config/cloudinary.js'
+const cloudinary = require("cloudinary").v2;
 dotenv.config();
 const getUserById = (id) =>
   new Promise(async (resolve, reject) => {
@@ -21,10 +23,17 @@ const getUserById = (id) =>
     }
   });
 
-const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
+const updateUser = (
+  { userID, email, fullname, phone_number, sex, birthday },
+  file
+) =>
   new Promise(async (resolve, reject) => {
     try {
       const user = await db.User.findOne({ where: { userID } });
+      let avatar
+      if (file) {
+        avatar = file.path
+      }
       if (user) {
         const updateFields = {
           ...(email && { email }),
@@ -32,10 +41,14 @@ const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
           ...(fullname && { fullname }),
           ...(birthday && { birthday }),
           ...(sex && { sex }),
+          ...(avatar && { avatar }),
         };
         if (email) {
           if (email === user.email) {
             resolve({ code: 0, message: "Email trùng với email cũ" });
+            if (file) {
+              await cloudinary.uploader.destroy(file.filename);
+            }
             return;
           } else {
             const user = await db.User.findOne({ where: { email } });
@@ -44,6 +57,9 @@ const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
                 code: 0,
                 message: "Email trùng với email trong hệ thống",
               });
+              if (file) {
+                await cloudinary.uploader.destroy(file.filename);
+              }
               return;
             }
           }
@@ -59,9 +75,15 @@ const updateUser = ({ userID, email, fullname, phone_number, sex, birthday }) =>
         });
         resolve({ code: 1, message: "Cập nhật thành công", token });
       } else {
+        if (file) {
+          await cloudinary.uploader.destroy(file.filename);
+        }
         resolve({ code: 0, message: "User không tồn tại" });
       }
     } catch (error) {
+      if (file) {
+        await cloudinary.uploader.destroy(file.filename);
+      }
       reject({ code: 0, message: "Lỗi server", error });
     }
   });

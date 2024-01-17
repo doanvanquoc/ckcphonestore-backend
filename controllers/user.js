@@ -11,12 +11,12 @@ const getUserByID = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { userID, email, fullname, sex, birthday, phone_number } = req.body;
+  const { userID, email, password, fullname, birthday, phone_number, sex } = req.body;
   if (!userID) {
-    return res.json({ code: 0, message: "Vui lòng điền đầy đủ thôn tin" });
+    return res.json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
-    const result = await userService.updateUser(req.body);
+    const result = await userService.updateUser(req.body, req.file);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);
