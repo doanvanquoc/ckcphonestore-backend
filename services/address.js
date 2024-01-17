@@ -24,12 +24,12 @@ const getUserAddresses = (userID) =>
 const addAddress = (userID, address) =>
   new Promise(async (resolve, reject) => {
     try {
-      const address = await db.Address.create({
+      const newAddress = await db.Address.create({
         address,
         userID,
       });
       if (address) {
-        resolve({ code: 1, message: "Thêm địa chỉ thành công", data: address });
+        resolve({ code: 1, message: "Thêm địa chỉ thành công", data: newAddress });
       } else {
         resolve({ code: 0, message: "Thêm địa chỉ thất bại" });
       }
