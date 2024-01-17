@@ -58,27 +58,27 @@ const register = (userData) =>
             phone_number,
             avatar: avatarPath,
             sex,
-          },
-          { raw: true }
+          }
         );
 
         if (user) {
           const token = jwt.sign(
             {
-              id: user.userID,
-              email: user.email,
-              fullname: user.fullname,
-              birthday: user.birthday,
-              phone_number: user.phone_number,
-              avatar: user.avatar,
-              sex: user.sex,
+              user: {
+                id: user.userID,
+                email: user.email,
+                fullname: user.fullname,
+                birthday: user.birthday,
+                phone_number: user.phone_number,
+                avatar: user.avatar,
+                sex: user.sex,
+              },
             },
             process.env.SECRET_KEY,
             {
               expiresIn: "1d",
             }
           );
-
           console.log(jwt.verify(token, process.env.SECRET_KEY));
           resolve({ code: 1, message: "OK", token });
         } else {
@@ -111,6 +111,5 @@ const checkEmail = (email) =>
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
-
 
 export default { login, register, checkEmail };

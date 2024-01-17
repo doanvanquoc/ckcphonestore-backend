@@ -26,7 +26,7 @@ const updateUser = async (req, res) => {
 const changePass = async (req, res) => {
   const { userID, oldPass, newPass } = req.body;
   if (!userID || !oldPass || !newPass) {
-    return res.json({ code: 0, message: "Vui lòng điền đầy đủ thôn tin" });
+    return res.json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
     const result = await userService.changePass(req.body);

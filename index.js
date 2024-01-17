@@ -13,6 +13,7 @@ import productRouter from './routers/product.js'
 import companyRouter from './routers/company.js'
 import reviewRouter from './routers/review.js'
 import orderRouter from './routers/order.js'
+import cartRouter from './routers/cart.js'
 
 
 dotenv.config()
@@ -36,5 +37,6 @@ app.use('/product', productRouter)
 app.use('/company', companyRouter)
 app.use('/review', reviewRouter)
 app.use('/order', orderRouter)
+app.use('/cart', cartRouter)
 
 app.listen(port, () => console.log("Server đang chạy tại http://localhost:3000"))

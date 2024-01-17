@@ -83,6 +83,7 @@ const verifyToken = (req, res) => {
   }
   try {
     const user = jwt.verify(token, process.env.SECRET_KEY);
+    console.log(user)
     res.json({ code: 1, data: user.user });
   } catch (error) {
     res.json({ code: 0, message: "Token hết hạn hoặc không chính xác" , error});
