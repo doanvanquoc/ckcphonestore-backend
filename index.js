@@ -5,6 +5,8 @@ import swaggerUI from 'swagger-ui-express'
 import fs from 'fs'
 import YAML from 'yaml'
 import path from 'path'
+import http from 'http'
+import {Server} from 'socket.io'
 
 
 import authRouter from './routers/auth.js'
@@ -20,9 +22,19 @@ import addressRouter from './routers/address.js'
 
 dotenv.config()
 const app = express()
+const server = http.createServer(app)
+const io = new Server(server)
 const port = process.env.PORT
 const file = fs.readFileSync(path.resolve('swagger.yaml'), 'utf8')
 const swaggerDocument = YAML.parse(file)
+
+//connect socket
+io.on('connection', (socket) => {
+    console.log('Client kết nối đến socket')
+    socket.on('disconnect', () => {
+        console.log('Client ngắt kết nối với socket')
+    })
+})
 
 app.use(cors())
 app.use(express.json())
@@ -43,4 +55,5 @@ app.use('/cart', cartRouter)
 app.use('/order-detail', orderDetailRouter)
 app.use('/address', addressRouter)
 
-app.listen(port, () => console.log("Server đang chạy tại http://localhost:3000"))
+server.listen(port, () => console.log("Server đang chạy tại http://localhost:3000"))
+export {io}

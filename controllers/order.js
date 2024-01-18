@@ -30,4 +30,19 @@ const getUserOrder = async (req, res) => {
   }
 };
 
-export default { createOrder, getUserOrder };
+const updateStatus = async (req, res) => {
+  const { orderID, statusID } = req.body;
+  if (!orderID || !statusID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  const result = await orderService.updateStatus(orderID, statusID);
+  res.json(result);
+  try {
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export default { createOrder, getUserOrder, updateStatus };

@@ -1,4 +1,5 @@
 const db = require("../models");
+import {io} from '../index.js'
 
 const createOrder = (userID) =>
   new Promise(async (resolve, reject) => {
@@ -89,4 +90,22 @@ const getUserOrder = (userID) =>
     }
   });
 
-export default { createOrder, getUserOrder };
+const updateStatus = (orderID, statusID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const rows = await db.Order.update({ statusID }, { where: { orderID } });
+      if (rows > 0) {
+        io.emit('order_updated')
+        resolve({
+          code: 1,
+          message: "Cập nhật trạng thái đơn hàng thành công",
+        });
+      } else {
+        resolve({ code: 0, message: "Cập nhật trạng thái đơn hàng thất bại" });
+      }
+    } catch (error) {
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+export default { createOrder, getUserOrder, updateStatus };

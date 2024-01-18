@@ -1,5 +1,3 @@
-import { where } from "sequelize";
-
 const db = require("../models");
 
 const getAllProduct = (userID) =>
