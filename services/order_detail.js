@@ -5,12 +5,15 @@ const getOrderDetail = (orderID, userID) =>
     try {
       const orderDetails = await db.OrderDetail.findAll({
         where: { orderID },
+        attributes: {
+          exclude: ['orderID', 'productID']
+        },
         include: [
           {
             model: db.Order,
             where: { userID },
             as: "order",
-            include: [{ model: db.User, as: "user" }],
+            attributes: ['orderID', 'total_price', 'order_date', 'statusID']
           },
           { model: db.Product, as: "product" },
         ],

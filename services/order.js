@@ -55,7 +55,25 @@ const getUserOrder = (userID) =>
     try {
       const result = await db.Order.findAll({
         where: { userID },
-        include: [{ model: db.Status, as: "status" }],
+        attributes: {
+          exclude: ["userID", "statusID"],
+        },
+        include: [
+          { model: db.Status, as: "status" },
+          {
+            model: db.OrderDetail,
+            as: "orderDetails",
+            attributes: ["orderDetailID"],
+            include: {
+              model: db.Product,
+              as: "product",
+              include: [
+                { model: db.Company, as: "company" },
+                { model: db.Image, as: "images", attributes: ["image_path"] },
+              ],
+            },
+          },
+        ],
       });
       if (result && result.length > 0) {
         resolve({
@@ -63,9 +81,8 @@ const getUserOrder = (userID) =>
           message: "Lấy thông tin đơn hàng thành công",
           data: result,
         });
-      }
-      else {
-        resolve({code: 0, message: 'Người dùng không có đơn hàng nào'})
+      } else {
+        resolve({ code: 0, message: "Người dùng không có đơn hàng nào" });
       }
     } catch (error) {
       reject({ code: 0, message: "Lỗi server", error });
