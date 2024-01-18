@@ -63,7 +63,7 @@ const getUserOrder = (userID) =>
           {
             model: db.OrderDetail,
             as: "orderDetails",
-            attributes: ["orderDetailID"],
+            attributes: ["orderDetailID", "quantity"],
             include: {
               model: db.Product,
               as: "product",
