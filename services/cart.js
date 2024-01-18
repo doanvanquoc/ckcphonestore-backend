@@ -1,3 +1,5 @@
+import { where } from 'sequelize'
+
 const db = require('../models')
 
 const getAllProduct = (userID) => new Promise(async (resolve, reject) => {
@@ -6,7 +8,7 @@ const getAllProduct = (userID) => new Promise(async (resolve, reject) => {
             where: {userID},
             include: [{model: db.Product, as: "product", include: [{model: db.Company, as: 'company'}, {model: db.Image, as: 'images',attributes: ["image_path"]}]}, ],
             attributes: {
-                exclude: ['userID', 'productID', 'cartID']
+                exclude: ['userID', 'productID']
             }
         })
         if (carts) {
@@ -34,4 +36,18 @@ const deleteProduct = (productID) => new Promise(async (resolve, reject) => {
     }
 })
 
-export default {getAllProduct, deleteProduct}
+const updateQuantity = (cartID, quantity) => new Promise(async (resolve, reject) => {
+    try {
+        const rows = await db.Cart.update({quantity}, {where:{cartID}})
+        if (rows > 0) {
+            resolve({code: 1, message: 'Cập nhật thành công'})
+        }
+        else {
+            resolve({Code:0, message: 'Cập nhật thất bại'})
+        }
+    } catch (error) {
+        reject({code:0, message: 'Lỗi server', error})
+    }
+})
+
+export default {getAllProduct, deleteProduct, updateQuantity}
