@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/:userID', cartController.getAllProduct)
 router.post('/update', cartController.updateQuantity)
+router.post('/add', cartController.addToCart)
 router.delete('/:productID', cartController.deleteProduct)
 
 export default router
