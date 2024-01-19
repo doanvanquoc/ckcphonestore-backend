@@ -26,4 +26,24 @@ const getReviewsByProductID = (productID) =>
     }
   });
 
-export default { getReviewsByProductID };
+const createReview = (content, rating, userID, productID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const review = await db.Review.create({
+        content,
+        userID,
+        productID,
+        rating,
+      });
+
+      if (review) {
+        resolve({ code: 0, message: "Thêm đánh giá thành công", review });
+      } else {
+        resolve({ code: 0, message: "Thêm đánh giá thất bại" });
+      }
+    } catch (error) {
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+export default { getReviewsByProductID, createReview };

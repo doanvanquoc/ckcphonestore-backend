@@ -62,7 +62,8 @@ const getProductByCompanyID = (companyID) =>
   new Promise(async (resolve, reject) => {
     try {
       const product = await db.Product.findAll({
-        where: { companyID },
+        where: { companyID, quantity: { [db.Sequelize.Op.gt]: 0 } },
+
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
@@ -85,6 +86,7 @@ const getLatestProducts = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
+        where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
         attributes: { exclude: ["companyID"] },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
@@ -108,6 +110,7 @@ const getAllProduct = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
+        where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
         attributes: { exclude: ["companyID"] },
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
@@ -129,5 +132,4 @@ export default {
   getProductByCompanyID,
   getLatestProducts,
   getAllProduct,
-
 };

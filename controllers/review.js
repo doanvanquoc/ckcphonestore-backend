@@ -15,4 +15,24 @@ const getReviewsByProductID = async (req, res) => {
   }
 };
 
-export default { getReviewsByProductID };
+const createReview = async (req, res) => {
+  const { content, rating, userID, productID } = req.body;
+  if (!content || !rating || !userID || !productID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const result = await reviewService.createReview(
+      content,
+      rating,
+      userID,
+      productID
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export default { getReviewsByProductID, createReview };

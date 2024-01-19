@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     content: DataTypes.STRING,
-    review_date: DataTypes.DATE,
+    review_date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
     rating: DataTypes.DOUBLE,
     productID: DataTypes.INTEGER,
     userID: DataTypes.INTEGER,
