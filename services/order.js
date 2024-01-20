@@ -97,7 +97,8 @@ const updateStatus = (orderID, statusID) =>
       const rows = await db.Order.update({ statusID }, { where: { orderID } });
       if (rows > 0) {
         io.emit("order_updated");
-        await admin
+        try {
+          await admin
           .send({
             notification: {
               title: "Thông báo",
@@ -108,6 +109,9 @@ const updateStatus = (orderID, statusID) =>
             },
             token: data.fcmToken,
           })
+        } catch (error) {
+          resolve({code:0, message:'Lỗi server', error})
+        }
         resolve({
           code: 1,
           message: "Cập nhật trạng thái đơn hàng thành công",
