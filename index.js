@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
         console.log('Client ngắt kết nối với socket')
     })
     socket.on('updated_order_ui', (data) => {
-        console.log('data')
+        console.log(data)
         admin
           .send({
             notification: {
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
             data: {
               click_action: "FLUTTER_NOTIFICATION_CLICK",
             },
-            token: data.fcmToken,
+            token: data,
           }).then(data=>{
             console.log('Thành công: ', data);
           }).catch(err=>{
