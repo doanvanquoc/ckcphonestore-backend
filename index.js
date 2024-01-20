@@ -20,6 +20,8 @@ import orderDetailRouter from './routers/order_detai.js'
 import addressRouter from './routers/address.js'
 import bannerController from './routers/banner.js'
 
+import { log } from 'console'
+
 
 dotenv.config()
 const app = express()

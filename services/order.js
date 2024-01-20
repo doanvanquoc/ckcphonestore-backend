@@ -1,5 +1,6 @@
 const db = require("../models");
 import {io} from '../index.js'
+import admin from './config/firebase.js'
 
 const createOrder = (userID) =>
   new Promise(async (resolve, reject) => {
@@ -96,6 +97,22 @@ const updateStatus = (orderID, statusID) =>
       const rows = await db.Order.update({ statusID }, { where: { orderID } });
       if (rows > 0) {
         io.emit('order_updated')
+        io.on('updated_order_ui', (data) => {
+          admin.send({
+            notification: {
+                title: 'Thông báo',
+                body: `Đơn hàng của bạn đã được cập nhật trạng thái`,
+            },
+            data: {
+                click_action: 'FLUTTER_NOTIFICATION_CLICK',
+            },
+            token: data.fcmToken
+        }).then(res => {
+            console.log('Thanh cong: ', res)
+        }).catch(err => {
+            console.log('that bai')
+        })
+        })
         resolve({
           code: 1,
           message: "Cập nhật trạng thái đơn hàng thành công",
