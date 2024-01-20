@@ -96,10 +96,12 @@ const updateStatus = (orderID, statusID) =>
     try {
       const rows = await db.Order.update({ statusID }, { where: { orderID } });
       if (rows > 0) {
-        io.emit("order_updated");
+        const order = await db.Order.findOne({where:{orderID}})
+        io.emit("order_updated", order.userID);
         resolve({
           code: 1,
           message: "Cập nhật trạng thái đơn hàng thành công",
+          userID: order.userID
         });
       } else {
         resolve({ code: 0, message: "Cập nhật trạng thái đơn hàng thất bại" });
