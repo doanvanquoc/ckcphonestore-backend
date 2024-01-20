@@ -37,6 +37,24 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client ngắt kết nối với socket')
     })
+    socket.on('updated_order_ui', (data) => {
+        console.log('data')
+        admin
+          .send({
+            notification: {
+              title: "Thông báo",
+              body: `Đơn hàng của bạn đã được cập nhật trạng thái`,
+            },
+            data: {
+              click_action: "FLUTTER_NOTIFICATION_CLICK",
+            },
+            token: data.fcmToken,
+          }).then(data=>{
+            console.log('Thành công: ', data);
+          }).catch(err=>{
+            console.log('Thất bại', err)
+          })
+    })
 })
 
 app.use(cors())

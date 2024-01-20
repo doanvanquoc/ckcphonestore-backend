@@ -97,21 +97,6 @@ const updateStatus = (orderID, statusID) =>
       const rows = await db.Order.update({ statusID }, { where: { orderID } });
       if (rows > 0) {
         io.emit("order_updated");
-        try {
-          await admin
-          .send({
-            notification: {
-              title: "Thông báo",
-              body: `Đơn hàng của bạn đã được cập nhật trạng thái`,
-            },
-            data: {
-              click_action: "FLUTTER_NOTIFICATION_CLICK",
-            },
-            token: data.fcmToken,
-          })
-        } catch (error) {
-          resolve({code:0, message:'Lỗi server', error})
-        }
         resolve({
           code: 1,
           message: "Cập nhật trạng thái đơn hàng thành công",
