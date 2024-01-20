@@ -1,6 +1,6 @@
 const db = require("../models");
 import {io} from '../index.js'
-import admin from './config/firebase.js'
+import admin from '../config/firebase.js'
 
 const createOrder = (userID) =>
   new Promise(async (resolve, reject) => {
