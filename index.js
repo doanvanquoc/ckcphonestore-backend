@@ -19,8 +19,7 @@ import cartRouter from './routers/cart.js'
 import orderDetailRouter from './routers/order_detai.js'
 import addressRouter from './routers/address.js'
 import bannerController from './routers/banner.js'
-
-import { log } from 'console'
+import admin from './config/firebase.js'
 
 
 dotenv.config()
