@@ -15,11 +15,11 @@ const getUserAddresses = async (req, res) => {
 
 const addAddress = async (req, res) => {
     try {
-        const {userID, address} = req.body
-        if (!userID || !address) {
+        const {userID, address, name} = req.body
+        if (!userID || !address || !name) {
             return res.status(400).json({code:0, message: 'Vui lòng điền đầy đủ thông tin'})
         }
-        const result = await addressService.addAddress(userID, address)
+        const result = await addressService.addAddress(userID, address, name)
         res.json(result)
     } catch (error) {
         res.status(500).json(error)

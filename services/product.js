@@ -82,8 +82,9 @@ const getProductByCompanyID = (companyID) =>
     }
   });
 
-  const getLatestProducts = () =>
+  const getLatestProducts = (limit) =>
   new Promise(async (resolve, reject) => {
+    const parsedLimit = parseInt(limit, 10);
     try {
       const products = await db.Product.findAll({
         where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
@@ -114,7 +115,7 @@ const getProductByCompanyID = (companyID) =>
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
         ],
-        limit: 5,
+        limit: parsedLimit || 100,
         order: [["post_date", "DESC"]],
       });
       if (products) {

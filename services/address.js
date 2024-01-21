@@ -21,12 +21,13 @@ const getUserAddresses = (userID) =>
     }
   });
 
-const addAddress = (userID, address) =>
+const addAddress = (userID, address, name) =>
   new Promise(async (resolve, reject) => {
     try {
       const newAddress = await db.Address.create({
         address,
         userID,
+        name
       });
       if (address) {
         resolve({ code: 1, message: "Thêm địa chỉ thành công", data: newAddress });

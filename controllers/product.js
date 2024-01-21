@@ -66,8 +66,9 @@ const getProductByCompanyID = async (req, res) => {
 };
 
 const getLatestProducts = async (req, res) => {
+  const limit = req.quey.limit
   try {
-    const products = await productService.getLatestProducts();
+    const products = await productService.getLatestProducts(limit);
     res.json(products);
   } catch (error) {
     res.status(500).json(error);
