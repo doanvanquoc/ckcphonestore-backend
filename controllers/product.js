@@ -84,8 +84,9 @@ const getAllProduct = async (req, res) => {
 };
 
 const getBestSellingProducts = async (req, res) => {
+  const limit = req.query.limit
   try {
-    const result = await productService.getBestSellingProducts();
+    const result = await productService.getBestSellingProducts(limit);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);
@@ -94,13 +95,14 @@ const getBestSellingProducts = async (req, res) => {
 
 const getBestSellingProductsByCompanyID = async (req, res) => {
   const companyID = req.params.companyID
+  const limit = req.query.limit
   if(!companyID) {
     return res
       .status(400)
       .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
   }
   try {
-    const result = await productService.getBestSellingProductsByCompanyID(companyID);
+    const result = await productService.getBestSellingProductsByCompanyID(companyID, limit);
     res.json(result);
   } catch (error) {
     res.status(500).json(error);

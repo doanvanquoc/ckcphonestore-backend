@@ -127,8 +127,9 @@ const getAllProduct = () =>
     }
   });
 
-const getBestSellingProducts = () =>
+const getBestSellingProducts = (limit) =>
   new Promise(async (resolve, reject) => {
+    const parsedLimit = parseInt(limit, 10);
     try {
       const bestSellingProducts = await db.Product.findAll({
         attributes: [
@@ -165,8 +166,9 @@ const getBestSellingProducts = () =>
             as: "company", // Thêm các trường bạn muốn chọn từ bảng Company
           },
         ],
-        group: ["Product.productID", "images.imageID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
+        group: ["Product.productID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
+        limit: parsedLimit || 100
       });
 
       resolve({ code: 1, message: "OK", data: bestSellingProducts });
@@ -176,8 +178,9 @@ const getBestSellingProducts = () =>
     }
   });
 
-const getBestSellingProductsByCompanyID = (companyID) =>
+const getBestSellingProductsByCompanyID = (companyID, limit) =>
   new Promise(async (resolve, reject) => {
+    const parsedLimit = parseInt(limit, 10);
     try {
       const bestSellingProducts = await db.Product.findAll({
         where: { companyID, quantity: { [db.Sequelize.Op.gt]: 0 } },
@@ -215,8 +218,9 @@ const getBestSellingProductsByCompanyID = (companyID) =>
             as: "company", // Thêm các trường bạn muốn chọn từ bảng Company
           },
         ],
-        group: ["Product.productID", "images.imageID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
+        group: ["Product.productID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
+        limit: parsedLimit || 100
       });
 
       resolve({ code: 1, message: "OK", data: bestSellingProducts });
