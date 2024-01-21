@@ -127,57 +127,110 @@ const getAllProduct = () =>
     }
   });
 
-  const getBestSellingProducts = async () => {
+const getBestSellingProducts = () =>
+  new Promise(async (resolve, reject) => {
     try {
       const bestSellingProducts = await db.Product.findAll({
         attributes: [
-          'productID',
-          'product_name',
-          'price',
-          'description',
-          'quantity',
-          'screen_size',
-          'os',
-          'cpu',
-          'ram',
-          'internal_storage',
-          'main_cam_resolution',
-          'front_cam_resolution',
-          'battery',
-          'weight',
-          'post_date',
-          [db.sequelize.literal('(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)'), 'TongBan'],
+          "productID",
+          "product_name",
+          "price",
+          "description",
+          "quantity",
+          "screen_size",
+          "os",
+          "cpu",
+          "ram",
+          "internal_storage",
+          "main_cam_resolution",
+          "front_cam_resolution",
+          "battery",
+          "weight",
+          "post_date",
+          [
+            db.sequelize.literal(
+              "(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)"
+            ),
+            "TongBan",
+          ],
         ],
         include: [
           {
             model: db.Image,
-            as: 'images',
-            attributes: ['image_path'],
+            as: "images",
+            attributes: ["image_path"],
           },
           {
             model: db.Company,
-            as: 'company',// Thêm các trường bạn muốn chọn từ bảng Company
+            as: "company", // Thêm các trường bạn muốn chọn từ bảng Company
           },
         ],
-        group: ['Product.productID','images.imageID'], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
-        order: [[db.sequelize.literal('TongBan'), 'DESC']],
+        group: ["Product.productID", "images.imageID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
+        order: [[db.sequelize.literal("TongBan"), "DESC"]],
       });
-  
-      return { code: 1, message: 'OK', data: bestSellingProducts };
+
+      resolve({ code: 1, message: "OK", data: bestSellingProducts });
     } catch (error) {
       console.error(error);
-      return { code: 0, message: 'Lỗi server', error };
+      reject({ code: 0, message: "Lỗi server", error });
     }
-  };
-  
-  
-  
+  });
 
+const getBestSellingProductsByCompanyID = (companyID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const bestSellingProducts = await db.Product.findAll({
+        where: { companyID, quantity: { [db.Sequelize.Op.gt]: 0 } },
+        attributes: [
+          "productID",
+          "product_name",
+          "price",
+          "description",
+          "quantity",
+          "screen_size",
+          "os",
+          "cpu",
+          "ram",
+          "internal_storage",
+          "main_cam_resolution",
+          "front_cam_resolution",
+          "battery",
+          "weight",
+          "post_date",
+          [
+            db.sequelize.literal(
+              "(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)"
+            ),
+            "TongBan",
+          ],
+        ],
+        include: [
+          {
+            model: db.Image,
+            as: "images",
+            attributes: ["image_path"],
+          },
+          {
+            model: db.Company,
+            as: "company", // Thêm các trường bạn muốn chọn từ bảng Company
+          },
+        ],
+        group: ["Product.productID", "images.imageID"], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
+        order: [[db.sequelize.literal("TongBan"), "DESC"]],
+      });
+
+      resolve({ code: 1, message: "OK", data: bestSellingProducts });
+    } catch (error) {
+      console.error(error);
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
 
 export default {
   createProduct,
   getProductByCompanyID,
   getLatestProducts,
   getAllProduct,
-  getBestSellingProducts
+  getBestSellingProducts,
+  getBestSellingProductsByCompanyID,
 };

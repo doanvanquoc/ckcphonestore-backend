@@ -92,10 +92,26 @@ const getBestSellingProducts = async (req, res) => {
   }
 };
 
+const getBestSellingProductsByCompanyID = async (req, res) => {
+  const companyID = req.params.companyID
+  if(!companyID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const result = await productService.getBestSellingProductsByCompanyID(companyID);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export default {
   getProductByCompanyID,
   getLatestProducts,
   createProduct,
   getAllProduct,
   getBestSellingProducts,
+  getBestSellingProductsByCompanyID
 };
