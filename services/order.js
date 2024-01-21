@@ -40,7 +40,7 @@ const createOrder = (userID) =>
             );
           }
           await db.Cart.destroy({ where: { userID } });
-          const newOrder = await db.Order.findAll({
+          const newOrder = await db.Order.findOne({
             where: { userID, orderID: order.orderID },
             attributes: {
               exclude: ["statusID"],
@@ -83,7 +83,7 @@ const getUserOrder = (userID) =>
       const result = await db.Order.findAll({
         where: { userID },
         attributes: {
-          exclude: ["userID", "statusID"],
+          exclude: ["statusID"],
         },
         include: [
           { model: db.Status, as: "status" },
