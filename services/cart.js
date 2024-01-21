@@ -57,27 +57,49 @@ const updateQuantity = (cartID, quantity) =>
     }
   });
 
-const addToCart = (userID, productID, quantity) =>
+  const addToCart = (userID, productID, quantity) =>
   new Promise(async (resolve, reject) => {
+    const intQuantity = parseInt(quantity, 10);
     try {
-      const cart = await db.Cart.create({
-        userID,
-        productID,
-        quantity,
+      const existingCartItem = await db.Cart.findOne({
+        where: { productID, userID },
       });
 
-      if (cart) {
-        resolve({
-          code: 1,
-          message: "Thêm sản phẩm vào giỏ hàng thành công",
-          data: cart,
-        });
+      if (existingCartItem) {
+        const updatedRows = await db.Cart.update(
+          { quantity: db.sequelize.literal(`quantity + ${intQuantity}`) },
+          { where: { cartID: existingCartItem.cartID } }
+        );
+
+        if (updatedRows > 0) {
+          resolve({
+            code: 1,
+            message: "Thêm sản phẩm vào giỏ hàng thành công",
+          });
+        } else {
+          resolve({ code: 0, message: "Thêm sản phẩm vào giỏ hàng thất bại" });
+        }
       } else {
-        resolve({ code: 0, message: "Thêm thất bại" });
+        const cart = await db.Cart.create({
+          userID,
+          productID,
+          quantity: intQuantity,
+        });
+
+        if (cart) {
+          resolve({
+            code: 1,
+            message: "Thêm sản phẩm vào giỏ hàng thành công",
+            data: cart,
+          });
+        } else {
+          resolve({ code: 0, message: "Thêm thất bại" });
+        }
       }
     } catch (error) {
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
 
 export default { getAllProduct, deleteProduct, updateQuantity, addToCart };
