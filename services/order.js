@@ -43,7 +43,7 @@ const createOrder = (userID) =>
           const newOrder = await db.Order.findAll({
             where: { userID, orderID: order.orderID },
             attributes: {
-              exclude: ["userID", "statusID"],
+              exclude: ["statusID"],
             },
             include: [
               { model: db.Status, as: "status" },
