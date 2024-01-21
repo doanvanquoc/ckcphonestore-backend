@@ -145,6 +145,7 @@ const getAllProduct = () =>
           'front_cam_resolution',
           'battery',
           'weight',
+          'post_date',
           [db.sequelize.literal('(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)'), 'TongBan'],
         ],
         include: [
