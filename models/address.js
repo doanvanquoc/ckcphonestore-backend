@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     address: DataTypes.STRING,
-    mame: DataTypes.STRING,
+    name: DataTypes.STRING,
     userID: DataTypes.INTEGER,
   }, {
     timestamps: false,
