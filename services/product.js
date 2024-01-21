@@ -82,12 +82,34 @@ const getProductByCompanyID = (companyID) =>
     }
   });
 
-const getLatestProducts = () =>
+  const getLatestProducts = () =>
   new Promise(async (resolve, reject) => {
     try {
       const products = await db.Product.findAll({
         where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
-        attributes: { exclude: ["companyID"] },
+        attributes: [
+          "productID",
+          "product_name",
+          "price",
+          "description",
+          "quantity",
+          "screen_size",
+          "os",
+          "cpu",
+          "ram",
+          "internal_storage",
+          "main_cam_resolution",
+          "front_cam_resolution",
+          "battery",
+          "weight",
+          "post_date",
+          [
+            db.sequelize.literal(
+              "(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)"
+            ),
+            "TongBan",
+          ],
+        ],
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
@@ -101,9 +123,10 @@ const getLatestProducts = () =>
         resolve({ code: 0, message: "Không tìm thấy sản phẩm nào" });
       }
     } catch (error) {
-      reject({ code: 0, message: "Lỗi server" });
+      reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
 
 //sẽ chuyển thành get product bán chạy sau
 const getAllProduct = () =>
