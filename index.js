@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
           .send({
             notification: {
               title: "Thông báo",
-              body: `Đơn hàng của bạn đã được cập nhật trạng thái`,
+              body: `Đơn hàng của bạn đã được cập nhật`,
             },
             data: {
               click_action: "FLUTTER_NOTIFICATION_CLICK",
