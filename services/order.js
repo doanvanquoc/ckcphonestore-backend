@@ -40,7 +40,28 @@ const createOrder = (userID) =>
             );
           }
           await db.Cart.destroy({ where: { userID } });
-          const newOrder = await getUserOrder(userID);
+          const newOrder = await db.Order.findAll({
+            where: { userID, orderID: order.orderID },
+            attributes: {
+              exclude: ["userID", "statusID"],
+            },
+            include: [
+              { model: db.Status, as: "status" },
+              {
+                model: db.OrderDetail,
+                as: "orderDetails",
+                attributes: ["orderDetailID", "quantity"],
+                include: {
+                  model: db.Product,
+                  as: "product",
+                  include: [
+                    { model: db.Company, as: "company" },
+                    { model: db.Image, as: "images", attributes: ["image_path"] },
+                  ],
+                },
+              },
+            ],
+          });
 
           resolve({ code: 1, message: "Tạo mới đơn hàng thành công", order: newOrder });
         } else {
@@ -53,6 +74,8 @@ const createOrder = (userID) =>
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
+  
 
 const getUserOrder = (userID) =>
   new Promise(async (resolve, reject) => {
