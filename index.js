@@ -56,7 +56,8 @@ io.on('connection', (socket) => {
     })
 
     socket.on('add_order', (data) => {
-      io.emit('order_updated')
+      console.log('data từ client:', data);
+      io.emit('order_updated', data)
     })
 })
 
