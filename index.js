@@ -54,6 +54,10 @@ io.on('connection', (socket) => {
             console.log('Thất bại', err)
           })
     })
+
+    socket.on('add_order', (data) => {
+      io.emit('order_updated')
+    })
 })
 
 app.use(cors())
