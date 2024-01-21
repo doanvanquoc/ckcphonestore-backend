@@ -110,11 +110,27 @@ const getBestSellingProductsByCompanyID = async (req, res) => {
   }
 };
 
+const getProductsByReviewUser = async (req, res) => {
+  const userID = req.params.userID
+  if(!userID){
+    return res
+    .status(400)
+    .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const result = await productService.getProductsByReviewUser(userID)
+    res.json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 export default {
   getProductByCompanyID,
   getLatestProducts,
   createProduct,
   getAllProduct,
   getBestSellingProducts,
-  getBestSellingProductsByCompanyID
+  getBestSellingProductsByCompanyID,
+  getProductsByReviewUser
 };

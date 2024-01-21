@@ -82,7 +82,7 @@ const getProductByCompanyID = (companyID) =>
     }
   });
 
-  const getLatestProducts = (limit) =>
+const getLatestProducts = (limit) =>
   new Promise(async (resolve, reject) => {
     const parsedLimit = parseInt(limit, 10);
     try {
@@ -129,7 +129,6 @@ const getProductByCompanyID = (companyID) =>
     }
   });
 
-
 //sẽ chuyển thành get product bán chạy sau
 const getAllProduct = () =>
   new Promise(async (resolve, reject) => {
@@ -157,7 +156,7 @@ const getBestSellingProducts = (limit) =>
     const parsedLimit = parseInt(limit, 10);
     try {
       const bestSellingProducts = await db.Product.findAll({
-        where: {quantity: { [db.Sequelize.Op.gt]: 0 } },
+        where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
         attributes: [
           "productID",
           "product_name",
@@ -195,7 +194,7 @@ const getBestSellingProducts = (limit) =>
         group: ["Product.productID"],
         having: db.sequelize.literal("TongBan > 0"), // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
-        limit: parsedLimit || 100
+        limit: parsedLimit || 100,
       });
 
       resolve({ code: 1, message: "OK", data: bestSellingProducts });
@@ -248,12 +247,33 @@ const getBestSellingProductsByCompanyID = (companyID, limit) =>
         group: ["Product.productID"],
         having: db.sequelize.literal("TongBan > 0"), // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
-        limit: parsedLimit || 100
+        limit: parsedLimit || 100,
       });
 
       resolve({ code: 1, message: "OK", data: bestSellingProducts });
     } catch (error) {
-      console.error(error);
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+const getProductsByReviewUser = (userID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const products = await db.Product.findAll({
+        attributes: {
+          exclude: ["Reviews", "companyID"],
+        },
+        include: [{ model: db.Review, where: { userID }, raw: true }, {
+          model: db.Image, as: 'images', attributes: ['image_path']
+        }, {model: db.Company, as: 'company'}],
+      });
+      const uniqueReviewedProducts = Array.from(
+        new Set(products.map((product) => product.productID))
+      ).map((productID) =>
+        products.find((product) => product.productID === productID)
+      );
+      resolve({ code: 1, message: "OK", data: uniqueReviewedProducts });
+    } catch (error) {
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
@@ -265,4 +285,5 @@ export default {
   getAllProduct,
   getBestSellingProducts,
   getBestSellingProductsByCompanyID,
+  getProductsByReviewUser,
 };
