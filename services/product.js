@@ -132,6 +132,7 @@ const getBestSellingProducts = (limit) =>
     const parsedLimit = parseInt(limit, 10);
     try {
       const bestSellingProducts = await db.Product.findAll({
+        where: {quantity: { [db.Sequelize.Op.gt]: 0 } },
         attributes: [
           "productID",
           "product_name",
