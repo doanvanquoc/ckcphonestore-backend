@@ -40,7 +40,9 @@ const createOrder = (userID) =>
             );
           }
           await db.Cart.destroy({ where: { userID } });
-          resolve({ code: 1, message: "Tạo mới đơn hàng thành công", order });
+          const newOrder = await getUserOrder(userID);
+
+          resolve({ code: 1, message: "Tạo mới đơn hàng thành công", order: newOrder });
         } else {
           resolve({ code: 0, message: "Không tạo được đơn hàng" });
         }
