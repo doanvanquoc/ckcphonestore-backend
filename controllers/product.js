@@ -66,7 +66,7 @@ const getProductByCompanyID = async (req, res) => {
 };
 
 const getLatestProducts = async (req, res) => {
-  const limit = req.quey.limit
+  const limit = req.query.limit
   try {
     const products = await productService.getLatestProducts(limit);
     res.json(products);
