@@ -6,6 +6,7 @@ import cloud from '../config/cloudinary.js'
 const router = express.Router()
 
 router.get('/all', productController.getAllProduct)
+router.get('/best-sell', productController.getBestSellingProducts)
 router.get('/latest', productController.getLatestProducts)
 router.get('/:companyID', productController.getProductByCompanyID)
 router.post('/create', cloud.uploadProductImage.single('image'), productController.createProduct)

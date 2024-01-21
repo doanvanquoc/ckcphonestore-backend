@@ -127,9 +127,33 @@ const getAllProduct = () =>
     }
   });
 
+  const getBestSellingProducts = async () => {
+    try {
+      const bestSellingProducts = await db.sequelize.query(
+        'SELECT products.*, SUM(orderDetails.quantity) AS TongBan ' +
+        'FROM products ' +
+        'INNER JOIN orderDetails ON products.productID = orderDetails.productID ' +
+        'GROUP BY products.productID ' +
+        'ORDER BY TongBan DESC;',
+        {
+          type: db.sequelize.QueryTypes.SELECT,
+          model: db.Product, // Đặt model tương ứng với bảng bạn muốn trả về
+          mapToModel: true, // Chọn mapToModel để Sequelize ánh xạ kết quả vào model
+        }
+      );
+  
+      return { code: 1, message: 'OK', data: bestSellingProducts };
+    } catch (error) {
+      return { code: 0, message: 'Lỗi server' };
+    }
+  };
+  
+
+
 export default {
   createProduct,
   getProductByCompanyID,
   getLatestProducts,
   getAllProduct,
+  getBestSellingProducts
 };

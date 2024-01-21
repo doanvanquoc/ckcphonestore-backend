@@ -83,9 +83,19 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+const getBestSellingProducts = async (req, res) => {
+  try {
+    const result = await productService.getBestSellingProducts();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export default {
   getProductByCompanyID,
   getLatestProducts,
   createProduct,
   getAllProduct,
+  getBestSellingProducts,
 };
