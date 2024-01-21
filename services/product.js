@@ -129,24 +129,47 @@ const getAllProduct = () =>
 
   const getBestSellingProducts = async () => {
     try {
-      const bestSellingProducts = await db.sequelize.query(
-        'SELECT products.*, SUM(orderDetails.quantity) AS TongBan ' +
-        'FROM products ' +
-        'INNER JOIN orderDetails ON products.productID = orderDetails.productID ' +
-        'GROUP BY products.productID ' +
-        'ORDER BY TongBan DESC;',
-        {
-          type: db.sequelize.QueryTypes.SELECT,
-          model: db.Product, // Đặt model tương ứng với bảng bạn muốn trả về
-          mapToModel: true, // Chọn mapToModel để Sequelize ánh xạ kết quả vào model
-        }
-      );
+      const bestSellingProducts = await db.Product.findAll({
+        attributes: [
+          'productID',
+          'product_name',
+          'price',
+          'description',
+          'quantity',
+          'screen_size',
+          'os',
+          'cpu',
+          'ram',
+          'internal_storage',
+          'main_cam_resolution',
+          'front_cam_resolution',
+          'battery',
+          'weight',
+          [db.sequelize.literal('(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)'), 'TongBan'],
+        ],
+        include: [
+          {
+            model: db.Image,
+            as: 'images',
+            attributes: ['image_path'],
+          },
+          {
+            model: db.Company,
+            as: 'company',// Thêm các trường bạn muốn chọn từ bảng Company
+          },
+        ],
+        group: ['Product.productID','images.imageID'], // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
+        order: [[db.sequelize.literal('TongBan'), 'DESC']],
+      });
   
       return { code: 1, message: 'OK', data: bestSellingProducts };
     } catch (error) {
-      return { code: 0, message: 'Lỗi server' };
+      console.error(error);
+      return { code: 0, message: 'Lỗi server', error };
     }
   };
+  
+  
   
 
 
