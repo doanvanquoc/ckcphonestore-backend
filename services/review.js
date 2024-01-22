@@ -46,4 +46,24 @@ const createReview = (content, rating, userID, productID) =>
     }
   });
 
-export default { getReviewsByProductID, createReview };
+  const getReviewsByProductIDAndUserID = (productID, userID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const reviews = await db.Review.findOne({
+        where: { productID, userID },
+        attributes: {
+          exclude: ["userID", "productID"],
+        },
+       
+      });
+      if (reviews) {
+        resolve({ code: 1, message: "OK", data: reviews });
+      } else {
+        resolve({ code: 0, message: "Sản phẩm không có đánh giá nào" });
+      }
+    } catch (error) {
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+export default { getReviewsByProductID, createReview, getReviewsByProductIDAndUserID };

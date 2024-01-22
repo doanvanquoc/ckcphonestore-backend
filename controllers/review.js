@@ -15,6 +15,22 @@ const getReviewsByProductID = async (req, res) => {
   }
 };
 
+const getReviewsByProductIDAndUserID = async (req, res) => {
+  const productID = req.params.productID;
+  const userID = req.params.userID;
+  if (!productID || !userID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const result = await reviewService.getReviewsByProductIDAndUserID(productID, userID);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const createReview = async (req, res) => {
   const { content, rating, userID, productID } = req.body;
   if (!content || !rating || !userID || !productID) {
@@ -35,4 +51,4 @@ const createReview = async (req, res) => {
   }
 };
 
-export default { getReviewsByProductID, createReview };
+export default { getReviewsByProductID, createReview,getReviewsByProductIDAndUserID  };
