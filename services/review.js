@@ -79,6 +79,13 @@ const getReviewsByProductIDAndUserID = (productID, userID) =>
         attributes: {
           exclude: ["userID", "productID"],
         },
+        include: [
+          {
+            model: db.User,
+            as: "user",
+            attributes: ["userID", "email", "fullname", "avatar"],
+          },
+        ],
       });
       if (reviews) {
         resolve({ code: 1, message: "OK", data: reviews });
