@@ -1,3 +1,5 @@
+import { where } from "sequelize";
+
 const db = require("../models");
 
 const getReviewsByProductID = (productID) =>
@@ -46,7 +48,30 @@ const createReview = (content, rating, userID, productID) =>
     }
   });
 
-  const getReviewsByProductIDAndUserID = (productID, userID) =>
+const updateReview = (content, rating, userID, productID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const rows = await db.Review.update(
+        {
+          content,
+          rating,
+        },
+        { where: { userID, productID } }
+      );
+      console.log(rows);
+
+      if (rows > 0) {
+        resolve({ code: 0, message: "Cập nhật đánh giá thành công" });
+      } else {
+        resolve({ code: 0, message: "Cập nhật đánh giá thất bại" });
+      }
+    } catch (error) {
+      console.error("Lỗi chi tiết:", error);
+      reject({ code: 0, message: "Lỗi server", error });
+    }
+  });
+
+const getReviewsByProductIDAndUserID = (productID, userID) =>
   new Promise(async (resolve, reject) => {
     try {
       const reviews = await db.Review.findOne({
@@ -54,7 +79,6 @@ const createReview = (content, rating, userID, productID) =>
         attributes: {
           exclude: ["userID", "productID"],
         },
-       
       });
       if (reviews) {
         resolve({ code: 1, message: "OK", data: reviews });
@@ -66,4 +90,9 @@ const createReview = (content, rating, userID, productID) =>
     }
   });
 
-export default { getReviewsByProductID, createReview, getReviewsByProductIDAndUserID };
+export default {
+  getReviewsByProductID,
+  createReview,
+  getReviewsByProductIDAndUserID,
+  updateReview
+};
