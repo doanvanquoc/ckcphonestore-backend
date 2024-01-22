@@ -141,11 +141,40 @@ const getAllProduct = () =>
     try {
       const products = await db.Product.findAll({
         where: { quantity: { [db.Sequelize.Op.gt]: 0 } },
-        attributes: { exclude: ["companyID"] },
+        attributes: [
+          "productID",
+          "product_name",
+          "price",
+          "description",
+          "quantity",
+          "screen_size",
+          "os",
+          "cpu",
+          "ram",
+          "internal_storage",
+          "main_cam_resolution",
+          "front_cam_resolution",
+          "battery",
+          "weight",
+          "post_date",
+          [
+            db.sequelize.literal(
+              "(SELECT SUM(orderDetails.quantity) FROM orderDetails WHERE orderDetails.productID = Product.productID)"
+            ),
+            "TongBan",
+          ],
+          [
+            db.sequelize.literal(
+              "(SELECT AVG(rating) FROM reviews WHERE reviews.productID = Product.productID)"
+            ),
+            "avg_rating",
+          ],
+        ],
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
           { model: db.Company, as: "company" },
         ],
+        order: [["post_date", "DESC"]],
       });
       if (products) {
         resolve({ code: 1, message: "OK", data: products });
