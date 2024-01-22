@@ -122,7 +122,6 @@ const getLatestProducts = (limit) =>
           { model: db.Company, as: "company" },
         ],
         limit: parsedLimit || 100,
-        having: db.sequelize.literal("TongBan > 0"),
         order: [["post_date", "DESC"]],
       });
       if (products) {
@@ -233,7 +232,6 @@ const getBestSellingProducts = (limit) =>
           },
         ],
         group: ["Product.productID"],
-        having: db.sequelize.literal("TongBan > 0"), // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
         limit: parsedLimit || 100,
       });
@@ -292,7 +290,6 @@ const getBestSellingProducts = (limit) =>
           },
         ],
         group: ["Product.productID"],
-        having: db.sequelize.literal("TongBan > 0"), // Thêm GROUP BY để phù hợp với các cột không được tổng hợp
         order: [[db.sequelize.literal("TongBan"), "DESC"]],
         limit: parsedLimit || 100,
       });
