@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
           .send({
             notification: {
               title: "Thông báo",
-              body: `Đơn hàng của bạn đã được cập nhật`,
+              body: `Đơn hàng của bạn đã được cập nhật trạng thái`,
             },
             data: {
               click_action: "FLUTTER_NOTIFICATION_CLICK",
@@ -56,9 +56,28 @@ io.on('connection', (socket) => {
           })
     })
 
+    socket.on('add_order_succ_from_client', (data) => {
+      console.log(data)
+      admin
+        .send({
+          notification: {
+            title: "Thông báo",
+            body: `Bạn có thêm 1 đơn hàng mới`,
+          },
+          data: {
+            click_action: "FLUTTER_NOTIFICATION_CLICK",
+          },
+          token: data,
+        }).then(data=>{
+          console.log('Thành công: ', data);
+        }).catch(err=>{
+          console.log('Thất bại', err)
+        })
+  })
+
     socket.on('add_order', (data) => {
       console.log('data từ client:', data);
-      io.emit('order_updated', data)
+      io.emit('add_order_success', data)
     })
 })
 
