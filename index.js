@@ -20,6 +20,7 @@ import orderDetailRouter from './routers/order_detai.js'
 import addressRouter from './routers/address.js'
 import bannerController from './routers/banner.js'
 import admin from './config/firebase.js'
+import notificationRouter from './routers/notification.js'
 
 
 dotenv.config()
@@ -80,6 +81,7 @@ app.use('/cart', cartRouter)
 app.use('/order-detail', orderDetailRouter)
 app.use('/address', addressRouter)
 app.use('/banners', bannerController)
+app.use('/notification', notificationRouter)
 
 server.listen(port, () => console.log("Server đang chạy tại http://localhost:3000"))
 export {io}
