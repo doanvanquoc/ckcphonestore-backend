@@ -8,6 +8,7 @@ const getAllCompany = () =>
           {
             model: db.Product,
             required: true,
+            where: {quantity: { [db.Sequelize.Op.gt]: 0 }},
             attributes: [],
           },
         ],
