@@ -10,6 +10,7 @@ router.get('/best-sell', productController.getBestSellingProducts)
 router.get('/best-sell/:companyID', productController.getBestSellingProductsByCompanyID)
 router.get('/review/:userID', productController.getProductsByReviewUser)
 router.get('/latest', productController.getLatestProducts)
+router.get('/latest/:companyID', productController.getLatestProductsByCompanyID)
 router.get('/:companyID', productController.getProductByCompanyID)
 router.post('/create', cloud.uploadProductImage.single('image'), productController.createProduct)
 

@@ -65,6 +65,21 @@ const getProductByCompanyID = async (req, res) => {
   }
 };
 
+const getLatestProductsByCompanyID = async (req, res) => {
+  const companyID = req.params.companyID;
+  if (!companyID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const product = await productService.getLatestProductsByCompanyID(companyID);
+    res.json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const getLatestProducts = async (req, res) => {
   const limit = req.query.limit
   try {
@@ -132,5 +147,6 @@ export default {
   getAllProduct,
   getBestSellingProducts,
   getBestSellingProductsByCompanyID,
-  getProductsByReviewUser
+  getProductsByReviewUser,
+  getLatestProductsByCompanyID
 };
