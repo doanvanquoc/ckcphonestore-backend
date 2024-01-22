@@ -110,6 +110,12 @@ const getLatestProducts = (limit) =>
             ),
             "TongBan",
           ],
+          [
+            db.sequelize.literal(
+              "(SELECT AVG(rating) FROM reviews WHERE reviews.productID = Product.productID)"
+            ),
+            "avg_rating",
+          ],
         ],
         include: [
           { model: db.Image, as: "images", attributes: ["image_path"] },
@@ -179,6 +185,12 @@ const getBestSellingProducts = (limit) =>
             ),
             "TongBan",
           ],
+          [
+            db.sequelize.literal(
+              "(SELECT AVG(rating) FROM reviews WHERE reviews.productID = Product.productID)"
+            ),
+            "avg_rating",
+          ],
         ],
         include: [
           {
@@ -204,7 +216,7 @@ const getBestSellingProducts = (limit) =>
     }
   });
 
-const getBestSellingProductsByCompanyID = (companyID, limit) =>
+  const getBestSellingProductsByCompanyID = (companyID, limit) =>
   new Promise(async (resolve, reject) => {
     const parsedLimit = parseInt(limit, 10);
     try {
@@ -232,6 +244,12 @@ const getBestSellingProductsByCompanyID = (companyID, limit) =>
             ),
             "TongBan",
           ],
+          [
+            db.sequelize.literal(
+              "(SELECT AVG(rating) FROM reviews WHERE reviews.productID = Product.productID)"
+            ),
+            "avg_rating",
+          ],
         ],
         include: [
           {
@@ -255,6 +273,7 @@ const getBestSellingProductsByCompanyID = (companyID, limit) =>
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
 
 const getProductsByReviewUser = (userID) =>
   new Promise(async (resolve, reject) => {
