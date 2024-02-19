@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Address, {foreignKey: 'userID'})
-      User.hasMany(models.Notification, {foreignKey: 'userID', as: 'notifications'})
-      User.hasMany(models.Order, {foreignKey: 'userID'})
-      User.hasOne(models.Cart, {foreignKey: 'userID'})
+      User.hasMany(models.Address, { foreignKey: 'userID', as: 'addresses' })
+      User.hasMany(models.Notification, { foreignKey: 'userID', as: 'notifications' })
+      User.hasMany(models.Order, { foreignKey: 'userID' })
+      User.hasOne(models.Cart, { foreignKey: 'userID' })
     }
   }
   User.init({
@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     phone_number: DataTypes.STRING,
     avatar: DataTypes.STRING,
     sex: DataTypes.STRING,
+    // role: {
+    //   type: DataTypes.INTEGER,
+    //   defaultValue: 2
+    // }
   }, {
     timestamps: false,
     sequelize,

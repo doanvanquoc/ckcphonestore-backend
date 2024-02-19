@@ -86,7 +86,7 @@ const verifyToken = (req, res) => {
     console.log(user)
     res.json({ code: 1, data: user.user });
   } catch (error) {
-    res.json({ code: 0, message: "Token hết hạn hoặc không chính xác" , error});
+    res.json({ code: 0, message: "Token hết hạn hoặc không chính xác", error });
   }
 };
 

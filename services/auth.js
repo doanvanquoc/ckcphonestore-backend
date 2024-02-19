@@ -9,10 +9,12 @@ const login = ({ email, password }) =>
     try {
       const user = await db.User.findOne({
         where: { email, password },
+        include: [{model: db.Address, as: 'addresses'}],
         attributes: {
           exclude: ["password"],
         },
       });
+      console.log(user);
       if (user) {
         const token = jwt.sign({ user }, process.env.SECRET_KEY, {
           expiresIn: "1d",
