@@ -68,6 +68,7 @@ const updateUser = (
         await db.User.update(updateFields, { where: { userID } });
         const userInfo = await db.User.findOne({
           where: { userID },
+          include:[{model:db.Address, as: 'addresses'}],
           attributes: { exclude: ["password"] },
         });
         const token = jwt.sign({ user: userInfo }, process.env.SECRET_KEY, {
