@@ -8,7 +8,7 @@ const getReviewsByProductID = (productID) =>
       const reviews = await db.Review.findAll({
         where: { productID },
         attributes: {
-          exclude: ["userID", "productID"],
+          exclude: ["userID"],
         },
         include: [
           {
