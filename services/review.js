@@ -14,7 +14,6 @@ const getReviewsByProductID = (productID) =>
           {
             model: db.User,
             as: "user",
-            attributes: ["userID", "email", "fullname", "avatar"],
           },
         ],
       });
