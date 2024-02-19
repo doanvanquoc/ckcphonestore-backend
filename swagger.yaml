@@ -8,7 +8,7 @@ info:
   version: 1.0.0
 servers:
   # - url: http://localhost:3000/
-  - url: https://api.vanquoc.id.vn/
+  - url: https://api.vanquoc.me/
 tags:
   - name: auth
     description: Các API liên quan đến đăng nhập và đăng ký
