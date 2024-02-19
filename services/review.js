@@ -14,6 +14,7 @@ const getReviewsByProductID = (productID) =>
           {
             model: db.User,
             as: "user",
+            include: [{model: db.Address, as: 'addresses'}]
           },
         ],
       });
