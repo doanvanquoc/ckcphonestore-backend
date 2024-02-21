@@ -33,7 +33,7 @@ const login = ({ email, password }) =>
 const register = (userData) =>
   new Promise(async (resolve, reject) => {
     try {
-      const { email, password, fullname, birthday, phone_number, sex, file } =
+      const { email, password, phone_number, file } =
         userData;
 
       const check = await db.User.findOne({
@@ -54,11 +54,11 @@ const register = (userData) =>
           {
             email,
             password,
-            fullname,
-            birthday,
+            fullname: 'fullname',
+            birthday: '2003-06-27',
             phone_number,
             avatar: avatarPath,
-            sex,
+            sex: 'Nam',
           }
         );
 

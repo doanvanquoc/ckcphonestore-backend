@@ -22,7 +22,7 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { email, password, fullname, birthday, phone_number, sex } = req.body;
+  const { email, password, phone_number} = req.body;
   let avatar;
 
   if (!req.file) {
@@ -32,7 +32,7 @@ const register = async (req, res) => {
     avatar = req.file.path;
   }
 
-  if (!email || !password || !fullname || !phone_number || !birthday || !sex) {
+  if (!email || !password || !phone_number ) {
     if (req.file) {
       cloudinary.uploader.destroy(req.file.filename);
     }
@@ -45,10 +45,7 @@ const register = async (req, res) => {
     const result = await authService.register({
       email,
       password,
-      fullname,
-      birthday,
       phone_number,
-      sex,
       file: req.file,
     });
 
