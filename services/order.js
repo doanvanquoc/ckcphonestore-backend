@@ -2,7 +2,7 @@ const db = require("../models");
 import { io } from "../index.js";
 import admin from "../config/firebase.js";
 
-const createOrder = (userID) =>
+const createOrder = (userID, promotion) =>
   new Promise(async (resolve, reject) => {
     try {
       //Lấy danh sách giỏ hàng theo user ID
@@ -16,9 +16,9 @@ const createOrder = (userID) =>
 
       if (carts && carts.length > 0) {
         //Tính tổng giá tiền
-        const total_price = carts.reduce((total, cart) => {
+        const total_price = (carts.reduce((total, cart) => {
           return total + cart.quantity * cart.product.price;
-        }, 0);
+        }, 0) * 0.9 + 50) * (0.01 * (100 - promotion));
 
         //Tạo mới đơn hàng
         const order = await db.Order.create({
