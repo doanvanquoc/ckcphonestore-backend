@@ -18,7 +18,7 @@ const createOrder = (userID, promotion) =>
         //Tính tổng giá tiền
         const total_price = (carts.reduce((total, cart) => {
           return total + cart.quantity * cart.product.price;
-        }, 0) * 0.9 + 50) * (0.01 * (100 - promotion));
+        }, 0) * 1.1 + 50) * (0.01 * (100 - promotion));
 
         //Tạo mới đơn hàng
         const order = await db.Order.create({
