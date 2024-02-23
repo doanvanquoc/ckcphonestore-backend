@@ -2,7 +2,7 @@ import orderService from "../services/order.js";
 
 const createOrder = async (req, res) => {
   const { id, promotion } = req.body;
-  if (!id || !promotion) {
+  if (!id || promotion == null) {
     return res
       .status(400)
       .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
