@@ -1,3 +1,5 @@
+import { where } from "sequelize";
+
 const db = require("../models");
 
 const getAllProduct = (userID) =>
@@ -32,7 +34,18 @@ const getAllProduct = (userID) =>
 const deleteProduct = (productID) =>
   new Promise(async (resolve, reject) => {
     try {
+      const prod = await db.Cart.findOne({ where: { productID } });
+      if (!prod) {
+        resolve({ code: 0, message: "Không có sản phẩm này trong giỏ hàng" });
+        return;
+      }
+
       const result = await db.Cart.destroy({ where: { productID } });
+      await db.Product.update(
+        { quantity: Sequelize.literal(`quantity + ${prod.quantity}`) },
+        { where: { productID } }
+      );
+
       if (result > 0) {
         resolve({ code: 1, message: "Xóa sản phẩm khỏi giỏ hàng thành công" });
       } else {
@@ -42,6 +55,7 @@ const deleteProduct = (productID) =>
       reject({ code: 0, message: "Lỗi server", error });
     }
   });
+
 
 const updateQuantity = (cartID, quantity) =>
   new Promise(async (resolve, reject) => {
@@ -57,7 +71,7 @@ const updateQuantity = (cartID, quantity) =>
     }
   });
 
-  const addToCart = (userID, productID, quantity) =>
+const addToCart = (userID, productID, quantity) =>
   new Promise(async (resolve, reject) => {
     const intQuantity = parseInt(quantity, 10);
     try {
@@ -72,6 +86,7 @@ const updateQuantity = (cartID, quantity) =>
         );
 
         if (updatedRows > 0) {
+          await db.Product.update({ quantity: Sequelize.literal('quantity - 1') }, { where: { productID } })
           resolve({
             code: 1,
             message: "Thêm sản phẩm vào giỏ hàng thành công",
