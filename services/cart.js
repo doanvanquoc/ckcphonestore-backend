@@ -116,5 +116,33 @@ const addToCart = (userID, productID, quantity) =>
     }
   });
 
+const getCartByProdId = (productID, userID) => new Promise(async (resolve, reject) => {
+  try {
+    const cart = await db.Cart.findOne({
+      where: { productID, userID }, include: [
+        {
+          model: db.Product,
+          as: "product",
+          include: [
+            { model: db.Company, as: "company" },
+            { model: db.Image, as: "images", attributes: ["image_path"] },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ["userID", "productID"],
+      },
+    })
+    if (cart) {
+      resolve({ code: 1, message: 'OK', data: cart })
+    }
+    else {
+      resolve({ code: 0, message: 'Không có sản phẩm này trong giỏ hàng' })
+    }
+  } catch (error) {
+    reject({ code: 0, message: 'Lỗi server: ', error })
+  }
+})
 
-export default { getAllProduct, deleteProduct, updateQuantity, addToCart };
+
+export default { getAllProduct, deleteProduct, updateQuantity, addToCart, getCartByProdId };

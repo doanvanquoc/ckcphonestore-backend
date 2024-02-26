@@ -46,18 +46,33 @@ const updateQuantity = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-    const {userID, productID, quantity} = req.body
-    if (!userID || !productID || !quantity) {
-        return res
+  const { userID, productID, quantity } = req.body
+  if (!userID || !productID || !quantity) {
+    return res
       .status(400)
       .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
-    }
-    try {
-        const result = await cartService.addToCart(userID, productID, quantity)
-        res.json(result)
-    } catch (error) {
-        res.status(500).json(error)
-    }
+  }
+  try {
+    const result = await cartService.addToCart(userID, productID, quantity)
+    res.json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
 }
 
-export default { getAllProduct, deleteProduct, updateQuantity, addToCart };
+const getCartByProdId = async (req, res) => {
+  const {productID, userID} = req.params
+  if (!productID || !userID) {
+    return res
+      .status(400)
+      .json({ code: 0, message: "Vui lòng điền đầy đủ thông tin" });
+  }
+  try {
+    const result = await cartService.getCartByProdId(productID, userID)
+    res.json(result)
+  } catch (error) {
+    res.json(error)
+  }
+}
+
+export default { getAllProduct, deleteProduct, updateQuantity, addToCart, getCartByProdId };
