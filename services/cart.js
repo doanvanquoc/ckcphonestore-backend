@@ -86,7 +86,6 @@ const addToCart = (userID, productID, quantity) =>
         );
 
         if (updatedRows > 0) {
-          await db.Product.update({ quantity: Sequelize.literal('quantity - 1') }, { where: { productID } })
           resolve({
             code: 1,
             message: "Thêm sản phẩm vào giỏ hàng thành công",
