@@ -66,7 +66,7 @@ const register = (userData) =>
           const token = jwt.sign(
             {
               user: {
-                id: user.userID,
+                userID: user.userID,
                 email: user.email,
                 fullname: user.fullname,
                 birthday: user.birthday,
